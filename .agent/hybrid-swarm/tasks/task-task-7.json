@@ -1,0 +1,22 @@
+{
+  "task_id": "task-7",
+  "title": "Crafting system with 3-tier recipe tree",
+  "description": "Implement src/market/crafting.rs: Recipe struct (inputs: Vec<(Commodity, f32)>, output: Commodity, output_qty: f32, ticks_required: u32, tier: u8, requires_workshop: bool). CraftingEngine with a registry of all recipes: Tier 1 (TIMBER+ORE\u2192TOOLS 5t, GRAIN+HERBS\u2192MEDICINE 5t, CLAY+TIMBER\u2192BRICKS 5t, ORE+CLAY\u2192METALWORK 8t, GRAIN+FISH\u2192PROVISIONS 3t, HERBS+CLAY\u2192POTTERY 4t), Tier 2 (TOOLS+ORE\u2192WEAPONS 10t, TOOLS+TIMBER\u2192FURNITURE 8t, METALWORK+CLAY\u2192ARMOR 12t, MEDICINE+POTTERY\u2192ALCHEMY 10t, BRICKS+METALWORK\u2192MACHINERY 15t, PROVISIONS+HERBS\u2192FEAST_GOODS 6t), Tier 3 requires WORKSHOP (WEAPONS+ARMOR\u2192ELITE_GEAR 20t, MACHINERY+TOOLS\u2192AUTOMATON 25t, ALCHEMY+MEDICINE\u2192ELIXIR 18t, FURNITURE+FEAST_GOODS\u2192LUXURY_SET 15t). Methods: (1) find_available_recipes(inventory, city) \u2014 filter by available materials, tier requirements. (2) start_craft(recipe, inventory) \u2014 consume inputs, return CraftingJob with remaining ticks. (3) tick_craft(job, city_specialization) \u2014 decrement timer (1.5\u00d7 speed if city has matching specialization), return output when done. (4) evaluate_recipe_profitability(recipe, buy_prices, sell_prices) -> f32 margin per tick. Validate: must be at city, sufficient materials, Tier 3 needs workshop.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1"
+  ],
+  "target_files": [
+    "src/market/crafting.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "Everything compiles. Here's what was implemented:\n\n**Modified files:**\n- `src/types.rs` \u2014 Added `requires_workshop: bool` field to the existing `Recipe` struct\n- `src/lib.rs` \u2014 Registered the new `market` module\n\n**New files:**\n- `src/market/mod.rs` \u2014 Module declaration\n- `src/market/crafting.rs` \u2014 Full crafting system:\n\n**Key types:**\n- `CityContext` \u2014 Lightweight city view with `upgrades` and `specialization`\n- `CraftingJob` \u2014 In-progress craft with recipe + `ticks_remaining`\n- `CraftingError` \u2014 `WorkshopRequired` | `InsufficientMaterial`\n\n**`CraftingEngine` with 16 recipes across 3 tiers:**\n- **Tier 1** (6 recipes): Tools, Medicine, Bricks, Metalwork, Provisions, Pottery\n- **Tier 2** (6 recipes): Weapons, Furniture, Armor, Alchemy, Machinery, FeastGoods\n- **Tier 3** (4 recipes, workshop required): EliteGear, Automaton, Elixir, LuxurySet\n\n**4 methods:**\n1. `find_available_recipes(inventory, city)` \u2014 Filters by materials + workshop requirement\n2. `start_craft(recipe, inventory, city)` \u2014 Validates, consumes inputs, returns `CraftingJob`\n3. `tick_craft(job, specialization)` \u2014 Decrements timer (1.5\u00d7 with matching specialization), returns output when done\n4. `evaluate_recipe_profitability(recipe, buy_prices, sell_prices)` \u2014 Returns margin per tick\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 0,
+  "attempt_history": []
+}

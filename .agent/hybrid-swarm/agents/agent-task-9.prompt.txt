@@ -1,0 +1,7 @@
+# Task: Gossip and caravan systems
+
+Implement src/market/gossip.rs: Gossip system where merchants within 25px automatically exchange information. Per tick per pair: one random price entry from each merchant's price_memory is shared (if not stale past TTL). Bandit camp locations shared if known. Gossip probability scales with sociability trait: base_chance × (s1 + s2) / 2. Within caravans: full price memory merge (all entries shared instantly).
+
+Implement src/agents/caravan.rs: Caravan struct (id, member_ids, leader_id). Formation: merchant with sociability > 0.5 near 2+ others heading similar direction (heading diff < π/4) within 30px can initiate. Caravan movement: all members move at speed of slowest member, leader picks heading, others follow with slight offset for visual spread. Dissolution: when members spread > 100px apart or destination city reached. Safety: caravans of 4+ → bandits won't attack; caravans of 3 → 70% repel chance. Soldier escort: soldiers within range auto-attach, receive 0.01g/tick from each caravan member as protection fee. Methods: try_form_caravan, tick_caravan_movement, check_dissolution, add_soldier_escort.
+
+Target files: src/market/gossip.rs, src/agents/caravan.rs

@@ -1,0 +1,17 @@
+# Task: Macroquad rendering, HUD, inspector panels, and controls
+
+Implement src/rendering/renderer.rs: Main render function drawing terrain (colored by type), cities (circles with population-scaled size, colored by prosperity), resource nodes (small icons by commodity type), merchants (small triangles colored by profession, pointing in heading direction), bandits (red dots), roads (darkened cells proportional to road_value), ground items. Smooth scrolling/zoom if world exceeds screen.
+
+src/rendering/reputation_overlay.rs: Semi-transparent heatmap overlay for each reputation channel (toggled by 1-4 keys, 0 off). Color per channel from config.
+
+src/rendering/hud.rs: Economy HUD (toggled S): population alive/bankrupt, total gold, trade volume last 200 ticks, per-commodity avg price bars, profession distribution bars, season indicator, avg wealth + Gini, reputation signal mass, top 3 trade routes, active caravan count, bandit camp count. Merchant inspector (left-click): side panel with full state, inventory, price memory, ledger, FSM state, traits, caravan info. City inspector (left-click city): population, treasury, tax, warehouse, upgrades, prosperity, order book summary.
+
+src/rendering/trade_flow.rs: Animated arrows between cities proportional to trade volume (toggled A).
+
+src/rendering/price_chart.rs: Live multi-line commodity price chart last 1000 ticks (toggled P). Wealth histogram (toggled E). Season timeline at top.
+
+src/rendering/controls.rs: Input handler — Space pause/resume, +/- speed (0.5×-10×), right-click drag paint mountains, middle-click place resource, Shift+right-click clear terrain, C market crash, F famine, G gold injection, B bandit surge, W force winter, K kill merchants, H heatmap, O road overlay.
+
+Create src/rendering/mod.rs.
+
+Target files: src/rendering/mod.rs, src/rendering/renderer.rs, src/rendering/hud.rs, src/rendering/reputation_overlay.rs, src/rendering/trade_flow.rs, src/rendering/price_chart.rs, src/rendering/controls.rs

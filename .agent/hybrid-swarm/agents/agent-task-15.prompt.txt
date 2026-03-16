@@ -1,0 +1,39 @@
+# Task: Full unit test suite
+
+Implement comprehensive unit tests in the tests/ directory with tests/common/mod.rs for shared fixtures (mini worlds with 2-3 cities, single merchants, pre-configured terrain). Test files:
+
+tests/test_merchant_physics.rs — movement formula, heading wrap, collision slide, world-bound reflection, fatigue drain/collapse/recovery, inventory weight, gold debit/credit, bankruptcy, caravan speed.
+
+tests/test_reputation.rs — deposit value, additive stacking clamped at 1.0, diffusion mass conservation ±1%, decay formula, bilinear interpolation, channel independence, performance (1000 ticks < 2s).
+
+tests/test_road.rs — traversal increment, clamp at 1.0, decay rate, speed bonus formula, no cross-cell contamination.
+
+tests/test_terrain.rs — Perlin output [0,1], deterministic seed, type thresholds, impassability, speed multipliers, coast identification, seasonal modifiers.
+
+tests/test_sensory.rs — scanner cone geometry, left/right discrimination, raycast distances, neighbor detection, city direction accuracy, price memory TTL, bandit proximity.
+
+tests/test_order_book.rs — midpoint execution, partial fills, tax deduction, TTL expiry, no self-match, NPC demand, price-time priority, price history, empty book, austerity.
+
+tests/test_crafting.rs — each tier IO, insufficient materials rejection, duration enforcement, city requirement, specialization bonus, Tier 3 needs workshop, concurrent crafting.
+
+tests/test_gossip.rs — in-range exchange, out-of-range no exchange, stale entries, caravan merge, bandit info sharing, sociability modulation.
+
+tests/test_bandit.rs — patrol radius, robbery percentages, attack range, caravan safety thresholds, soldier combat outcomes, camp starvation/respawn, seasonal activity, wall avoidance.
+
+tests/test_city.rs — population growth/decline, tax adjustment, tax clamp, upgrade purchase/effects, warehouse decay, prosperity formula.
+
+tests/test_caravan.rs — formation requirements, sociability threshold, movement speed, dissolution conditions, safety sizes, soldier attachment, price merge.
+
+tests/test_seasonal.rs — all yield modifiers per commodity per season, winter speed, winter food consumption, harbor freeze, season cycle interval.
+
+tests/test_brain_trader.rs — all state transitions, margin calc, greed effect, danger avoidance, fleeing trigger.
+tests/test_brain_miner.rs — node selection, extraction rate, seasonal avoidance.
+tests/test_brain_farmer.rs — crop rotation, seasonal switching.
+tests/test_brain_craftsman.rs — recipe selection by margin/tick, specialization, travel decision.
+tests/test_brain_soldier.rs — patrol route, escort, combat outcomes, risk tolerance.
+tests/test_brain_shipwright.rs — coast-only movement, speed/carry multipliers, harbor requirement, winter lockout.
+
+tests/test_economy_manager.rs — initial population, spawn rate, profession distribution ±5%, bankrupt removal, rebalancing, emergency farmer shift, gold conservation.
+tests/test_world.rs — resource depletion/regen formulas, exhausted nodes, city spacing, terrain determinism, bounds checking.
+
+Target files: tests/common/mod.rs, tests/test_merchant_physics.rs, tests/test_reputation.rs, tests/test_road.rs, tests/test_terrain.rs, tests/test_sensory.rs, tests/test_order_book.rs, tests/test_crafting.rs, tests/test_gossip.rs, tests/test_bandit.rs, tests/test_city.rs, tests/test_caravan.rs, tests/test_seasonal.rs, tests/test_brain_trader.rs, tests/test_brain_miner.rs, tests/test_brain_farmer.rs, tests/test_brain_craftsman.rs, tests/test_brain_soldier.rs, tests/test_brain_shipwright.rs, tests/test_economy_manager.rs, tests/test_world.rs

@@ -1,0 +1,23 @@
+{
+  "task_id": "task-3",
+  "title": "Reputation grid and road grid overlay systems",
+  "description": "Implement src/world/reputation.rs: A grid overlay (cell_size ~8px) with 4 independent signal channels (PROFIT, DEMAND, DANGER, OPPORTUNITY). Each channel is a 2D array of f32 (world_size / cell_size resolution, ~200x125). Per tick: (1) deposit \u2014 merchants write signals additively, clamped at 1.0; (2) diffusion \u2014 separable Gaussian blur per channel with configurable sigma; (3) decay \u2014 multiply by channel-specific decay factor. Provide bilinear interpolation sampling at arbitrary world positions. Scanner sampling: given position and heading, sample average signal in left/right cones (\u00b135\u00b0 from heading, range 60px). Compute gradient vectors for PROFIT and DANGER channels at a position. Target: reputation processing < 2ms per tick \u2014 use flat arrays, avoid heap allocation in hot loop.\n\nImplement src/world/road.rs: Same grid resolution. Each cell has a road_value (f32, 0.0-1.0). Traversal: when a merchant crosses a cell, increment road_value by +0.002 (clamped at 1.0). Decay: multiply all cells by 0.9998 per tick. Speed bonus: 1.0 + 0.6 \u00d7 road_value. Provide method to get road speed multiplier at world position.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1"
+  ],
+  "target_files": [
+    "src/world/reputation.rs",
+    "src/world/road.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "Both modules are implemented and all tests pass. Here's a summary:\n\n### `src/world/reputation.rs` \u2014 ReputationGrid\n- **4 independent channels** (Profit, Demand, Danger, Opportunity) as flat `Vec<f32>` arrays (200x125 at default config)\n- **Deposit**: additive write at world position, clamped to 1.0\n- **Diffusion**: separable Gaussian blur per channel with pre-computed 1D kernels; reuses a single scratch buffer (zero heap allocation in tick)\n- **Decay**: per-channel multiplicative decay\n- **Bilinear interpolation** sampling at arbitrary world positions (cell-centered)\n- **Scanner sampling**: 3x3 polar grid (9 samples per cone) in left/right cones at \u00b1half_angle from heading, up to `range` distance\n- **Gradient**: central-difference approximation for any channel at a world position\n\n### `src/world/road.rs` \u2014 RoadGrid\n- Flat `Vec<f32>` array, same resolution as reputation grid\n- **Traverse**: increments cell by config increment (0.002), clamped to 1.0\n- **Decay**: multiplies all cells by decay factor (0.9998) per tick\n- **Speed multiplier**: `1.0 + max_speed_bonus * road_value` at query position\n- Out-of-bounds positions return 0.0 / multiplier 1.0\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 0,
+  "attempt_history": []
+}

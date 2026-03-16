@@ -1,0 +1,5 @@
+# Task: Bandit system with camps, patrol, robbery, and combat
+
+Implement src/world/bandit.rs: BanditCamp struct (id, position, patrol_radius 100-200px, agents 2-4, ticks_since_last_robbery). Bandit agent struct (position, camp_id, active). Placement: camps spawn in FOREST/HILLS terrain, away from cities. Patrol: bandits wander within patrol_radius of camp. Attack: merchants within 15px — steal 20-40% of carried goods + 10-30% of gold. Merchants who are robbed deposit strong DANGER signals. Bandits avoid cities with WALLS upgrade. Camp lifecycle: destroyed if no successful robbery in 3000 ticks (starvation); new camps spawn to maintain target count (5-10). Soldier combat: soldier-profession merchants within 25px of robbery engage — 50% win (bandit removed, soldier +10 reputation) vs 50% lose (soldier loses 30% gold + all inventory). Seasonal activity modifier: summer ×1.3 attack frequency, winter ×0.5. Caravan safety rules: don't attack 4+ groups, 70% repel for groups of 3.
+
+Target files: src/world/bandit.rs

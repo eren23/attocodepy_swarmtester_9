@@ -1,0 +1,32 @@
+{
+  "task_id": "task-9",
+  "title": "Gossip and caravan systems",
+  "description": "Implement src/market/gossip.rs: Gossip system where merchants within 25px automatically exchange information. Per tick per pair: one random price entry from each merchant's price_memory is shared (if not stale past TTL). Bandit camp locations shared if known. Gossip probability scales with sociability trait: base_chance \u00d7 (s1 + s2) / 2. Within caravans: full price memory merge (all entries shared instantly).\n\nImplement src/agents/caravan.rs: Caravan struct (id, member_ids, leader_id). Formation: merchant with sociability > 0.5 near 2+ others heading similar direction (heading diff < \u03c0/4) within 30px can initiate. Caravan movement: all members move at speed of slowest member, leader picks heading, others follow with slight offset for visual spread. Dissolution: when members spread > 100px apart or destination city reached. Safety: caravans of 4+ \u2192 bandits won't attack; caravans of 3 \u2192 70% repel chance. Soldier escort: soldiers within range auto-attach, receive 0.01g/tick from each caravan member as protection fee. Methods: try_form_caravan, tick_caravan_movement, check_dissolution, add_soldier_escort.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-8"
+  ],
+  "target_files": [
+    "src/market/gossip.rs",
+    "src/agents/caravan.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "All 29 tests pass. Both modules were already fully implemented and registered:\n\n**`src/market/gossip.rs`** - Gossip system with:\n- Merchants within 25px exchange one random non-stale price entry per tick per pair\n- Gossip probability scales with sociability: `base_chance \u00d7 (s1 + s2) / 2`\n- Bandit camp locations shared if known (skips already-known camps)\n- Caravan members get full price memory merge (via `caravan_merges` output)\n- 8 tests covering range, staleness, sociability gating, camp sharing, and caravan merges\n\n**`src/agents/caravan.rs`** - Caravan system with:\n- `Caravan` struct (id, member_ids, leader_id, escort_ids)\n- `try_form_caravan`: sociability > 0.5 initiator, 2+ others within 30px, heading diff < \u03c0/4, highest sociability initiates first\n- `tick_caravan_movement`: slowest member speed, leader heading with perpendicular formation offsets\n- `check_dissolution`: spread > 100px or any member at a city\n- `add_soldier_escort`: soldiers within 30px auto-attach, 0.01g/tick per member per soldier\n- 20 tests covering formation, movement, dissolution, escort, and angle math\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 1,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T19:36:03.414223+00:00",
+      "duration_s": 600.0107681751251,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

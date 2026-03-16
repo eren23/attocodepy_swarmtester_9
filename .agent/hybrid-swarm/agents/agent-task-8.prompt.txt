@@ -1,0 +1,13 @@
+# Task: Merchant agent core: struct, physics, movement, and traits
+
+Implement src/agents/merchant.rs: Full Merchant struct per spec (id, pos, heading, speed, gold, inventory HashMap<Commodity, f32>, max_carry, profession, reputation, fatigue, alive, age, home_city, state, price_memory with per-city per-commodity last-known prices and TTL, ledger VecDeque<Transaction> last 50, caravan_id, traits). Physics/movement: heading updated by turn delta (clamped [-π/6, π/6]), position advanced by speed × speed_mult × terrain_mult × road_mult × fatigue_mult × season_mult. fatigue_mult = max(0.3, 1.0 - fatigue/200.0). Mountain/water collision: slide along edge. World bounds: reflect heading. Fatigue cost: 0.03 + 0.02 × speed_mult + 0.04 × (inventory_weight / max_carry). Fatigue ≥ 100 → collapse (drop 15% inventory, fatigue → 80). At city: fatigue recovers 1.5/tick. Gold < 0 for 200 consecutive ticks → bankrupt (remove, drop inventory, deposit DANGER). Inventory weight tracking.
+
+Implement src/agents/traits.rs: MerchantTraits (risk_tolerance, greed, sociability, loyalty, all 0-1). Random generation with normal distribution. Document how each trait modulates behavior.
+
+Implement src/agents/actions.rs: MerchantAction struct (turn, speed_mult, deposit_signal, signal_strength, market_action, extract, craft, rest, join_caravan, leave_caravan). Action execution methods.
+
+Implement src/agents/sensory.rs: SensoryInput struct builder. Given merchant position/heading and world state, populate: scanner cones (left/right ±35° from heading, range 60px, avg reputation per channel), terrain raycasts (5 rays, 120° arc, 40px range), neighbors within 30px, nearest city/resource directions, profit/danger gradients, self-state, bandit proximity (within 80px).
+
+Create src/agents/mod.rs.
+
+Target files: src/agents/mod.rs, src/agents/merchant.rs, src/agents/sensory.rs, src/agents/actions.rs, src/agents/traits.rs

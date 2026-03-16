@@ -1,0 +1,42 @@
+{
+  "task_id": "task-12",
+  "title": "Economy manager, world integration, and game loop",
+  "description": "Implement src/agents/economy_manager.rs: EconomyManager tracks all merchants, handles spawning (initial population from config, spawn rate 0.05 when economy healthy, up to max_population 400), profession assignment (default distribution: 40% trader, 12% miner, 10% farmer, 18% craftsman, 8% soldier, 5% shipwright, 7% idle), rebalancing every 500 ticks (compute avg income per profession over last 1000 ticks, transfer 5% of worst to best, assign idle to most-needed), emergency rebalancing (if < 20% cities have food, force 20% of idle + low-performing traders to become farmers), bankrupt removal, gold conservation tracking.\n\nImplement src/world/world.rs: World struct aggregating Terrain, ReputationGrid, RoadGrid, Vec<City>, Vec<ResourceNode>, Vec<BanditCamp>, season state (cycling every 2500 ticks: SPRING\u2192SUMMER\u2192AUTUMN\u2192WINTER), current_tick. World::tick() method orchestrating per-tick update order: (1) update season, (2) build sensory inputs for all merchants, (3) run brain decisions, (4) execute merchant actions (movement, trading, crafting, extraction), (5) process gossip and caravans, (6) tick reputation (diffuse, decay), (7) tick roads (decay), (8) tick cities (population, tax, warehouse), (9) tick resource nodes (regen), (10) tick bandits (patrol, attack, starvation), (11) economy manager (spawn, rebalance), (12) collect metrics.\n\nUpdate src/main.rs: macroquad game loop calling world.tick() and rendering, with configurable tick rate and pause/speed controls.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-2",
+    "task-3",
+    "task-4",
+    "task-5",
+    "task-6",
+    "task-7",
+    "task-8",
+    "task-9",
+    "task-10",
+    "task-11"
+  ],
+  "target_files": [
+    "src/agents/economy_manager.rs",
+    "src/world/world.rs",
+    "src/main.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "All three target files are already fully implemented and working:\n\n- **174 tests pass**, 0 failures\n- **Code compiles** cleanly\n\nHere's a summary of what's in each file:\n\n**`src/agents/economy_manager.rs`** \u2014 Complete with:\n- `IncomeTracker` (sliding window over last 1000 ticks)\n- `EconomyManager::spawn_initial_population()` with profession distribution (40/12/10/18/8/5/7%)\n- `try_spawn()` \u2014 probabilistic spawn at `spawn_rate` when economy healthy, capped at `max_population`\n- `normal_rebalance()` \u2014 every `rebalance_interval` ticks, transfers 5% of worst profession to best, assigns idle to most-needed\n- `emergency_rebalance()` \u2014 if <20% cities have food, forces 20% of idle + low traders to become farmers\n- `remove_bankrupt()` \u2014 ticks bankruptcy grace and marks dead\n- Gold conservation tracking (last 1000 measurements)\n- 7 tests\n\n**`src/world/world.rs`** \u2014 Complete with:\n- `World` struct aggregating Terrain, ReputationGrid, RoadGrid, cities, resource nodes, bandits, merchants, order books, caravans, crafting, economy manager, brains\n- Season cycling every `season_length_ticks` (2500): Spring\u2192Summer\u2192Autumn\u2192Winter\n- `tick()` orchestrating all 12 steps in order: season \u2192 sensory \u2192 brain \u2192 actions \u2192 gossip/caravans \u2192 reputation \u2192 roads \u2192 cities \u2192 resources \u2192 bandits \u2192 economy \u2192 metrics\n- `TickMetrics` collection (capped at 5000)\n- 5 tests\n\n**`src/main.rs`** \u2014 Complete with:\n- macroquad game loop calling `world.tick()`\n- Rendering: cities (white), resources (green), bandits (red), merchants (colored by profession)\n- HUD: tick count, season, status, merchant count, speed, FPS\n- Controls: SPACE (pause), RIGHT (step), +/- (speed), H (help overlay)\n- Viewport auto-scaling\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 1,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T20:11:21.895657+00:00",
+      "duration_s": 600.0072619915009,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

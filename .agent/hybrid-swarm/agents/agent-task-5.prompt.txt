@@ -1,0 +1,5 @@
+# Task: Resource nodes with extraction, depletion, and seasons
+
+Implement src/world/resource_node.rs: ResourceNode struct with fields: id, position (Vec2), commodity (one of TIMBER, ORE, GRAIN, FISH, CLAY, HERBS), base_yield (1-5 units per extraction), depletion (f32, 0.0-1.0), currently_harvested (bool flag per tick). Methods: (1) extract(season) -> f32: returns yield adjusted for depletion (at 80% depletion yield drops to 50%, at 100% yields 0) and seasonal modifiers (GRAIN/HERBS ×2 summer ×0.3 winter; FISH ×1.5 spring ×0.5 autumn; CLAY ×0 in winter if in northern 30% of map; TIMBER/ORE unaffected). Extraction takes 3 ticks per unit. (2) tick_regeneration: if not harvested this tick, recover depletion at 0.05%/tick. Exhausted nodes (100%) recover to 20% after 2000 ticks of no extraction. (3) Scatter placement: generate 20-30 nodes avoiding mountains and water, distributed across the map. Ensure at least one of each commodity type exists.
+
+Target files: src/world/resource_node.rs

@@ -1,0 +1,22 @@
+{
+  "task_id": "task-4",
+  "title": "City system with population, tax, warehouse, and upgrades",
+  "description": "Implement src/world/city.rs: City struct with fields: id (CityId), position (Vec2), radius (~30px), population (f32, range 50-500), tax_rate (f32, 0.0-0.15), treasury (f32, accumulated tax), warehouse (HashMap<Commodity, f32>, capacity 500 total), prosperity (f32, 0-100), specialization (one random Commodity category for 1.5\u00d7 crafting speed), upgrades (HashSet of MarketHall, Walls, Harbor, Workshop), ticks_without_food (u32), is_coastal (bool). Methods: (1) tick_population \u2014 grow by 0.01/tick when prosperity > 60 and food stocked (GRAIN, FISH, PROVISIONS > 0), decline by 0.02/tick when no food for 200+ ticks. (2) tick_warehouse \u2014 decay overstocked goods by 0.1%/tick. (3) tick_tax_adjustment \u2014 every 500 ticks: raise tax by 1% if trade volume above avg, lower by 1% if below, clamp to [0, 0.15]. (4) compute_prosperity \u2014 from population, trade volume, warehouse fullness, commodity diversity. (5) try_purchase_upgrade \u2014 deduct from treasury if affordable, apply effects. (6) City placement via Poisson disk sampling (static method generating N cities with minimum spacing). Coastal cities determined by terrain.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1"
+  ],
+  "target_files": [
+    "src/world/city.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "Compiles cleanly. Here's what was created:\n\n**`src/world/mod.rs`** \u2014 declares the city submodule\n\n**`src/world/city.rs`** \u2014 the `City` struct with:\n\n**Fields:** `id`, `position`, `radius`, `population` (f32, 50-500), `tax_rate` (0.0-0.15), `treasury`, `warehouse` (HashMap<Commodity, f32>), `prosperity` (0-100), `specialization` (random Commodity), `upgrades` (HashSet<CityUpgrade>), `ticks_without_food`, `is_coastal`, `trade_volume`, `avg_trade_volume`\n\n**Methods:**\n1. `tick_population` \u2014 grows +0.01/tick when prosperity > 60 and food stocked (Grain/Fish/Provisions > 0); declines -0.02/tick when no food for 200+ ticks; clamps to config range\n2. `tick_warehouse` \u2014 decays all goods by `warehouse_decay_rate` (0.1%) per tick when total exceeds capacity\n3. `tick_tax_adjustment` \u2014 every 500 ticks: +1% if trade volume above average, -1% if below, clamped to [0, 0.15]; resets volume counter\n4. `compute_prosperity` \u2014 weighted score from population (25%), trade volume (25%), warehouse fullness (25%), commodity diversity (25%)\n5. `try_purchase_upgrade` \u2014 deducts cost from treasury if affordable, inserts upgrade\n6. `crafting_speed` \u2014 returns 1.5\u00d7 for specialization commodity, \u00d71.25 with Workshop upgrade\n7. `poisson_disk_placement` (static) \u2014 generates N city positions with minimum spacing on passable terrain; coastal status from terrain type\n8. `generate` \u2014 convenience wrapper combining Poisson placement with City construction\n\n**`src/lib.rs`** \u2014 updated to include `pub mod world;`\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 0,
+  "attempt_history": []
+}

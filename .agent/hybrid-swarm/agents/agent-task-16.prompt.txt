@@ -1,0 +1,9 @@
+# Task: Integration tests, emergence tests, replay test, and benchmarks
+
+Implement tests/test_emergence.rs: headless accelerated integration tests for all 15 emergent behaviors: (1) trade route formation — 2 cities, 200 merchants, 3000 ticks, assert road corridor < 120px width; (2) market specialization — 10 cities, 5000 ticks, assert ≥3 cities Herfindahl > 0.4; (3) price convergence — 5000 ticks, cross-city variance decreases ≥30% for ≥4 commodities; (4) boom-bust — 10000 ticks, Ljung-Box p<0.05 at lag 500-3000; (5) seasonal pricing — 10000 ticks, GRAIN seasonal amplitude > 15% of mean; (6) wealth inequality — 5000 ticks, Gini > 0.3; (7) guild clustering — DBSCAN ≤4 clusters for ≥2 professions; (8) caravan-danger correlation — Pearson r > 0.3; (9) info propagation — >50% merchants learn prices within 2000 ticks; (10) economic migration — density increase ≥20% within 1500 ticks; (11) profession adaptation — miner % drops ≥50% after ORE removal; (12) city growth — population variance increases, ≥1 city > 1.5× initial; (13) bandit avoidance — traffic drops ≥40% within 1000 ticks; (14) tax competition — Pearson r < -0.2 between tax and volume.
+
+Implement tests/test_replay.rs: Save state at tick N, run to N+500, reload with same seed, re-run to N+500, assert merchant positions match within 0.01px.
+
+Implement benches/bench_reputation.rs, benches/bench_market.rs, benches/bench_colony_tick.rs, benches/bench_pathfinding.rs: Criterion benchmarks targeting reputation+road < 2ms, order matching < 1ms, full 200-merchant tick < 8ms, A* < 500μs.
+
+Target files: tests/test_emergence.rs, tests/test_replay.rs, benches/bench_reputation.rs, benches/bench_market.rs, benches/bench_colony_tick.rs, benches/bench_pathfinding.rs

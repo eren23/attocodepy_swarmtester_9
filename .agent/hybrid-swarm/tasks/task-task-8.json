@@ -1,0 +1,37 @@
+{
+  "task_id": "task-8",
+  "title": "Merchant agent core: struct, physics, movement, and traits",
+  "description": "Implement src/agents/merchant.rs: Full Merchant struct per spec (id, pos, heading, speed, gold, inventory HashMap<Commodity, f32>, max_carry, profession, reputation, fatigue, alive, age, home_city, state, price_memory with per-city per-commodity last-known prices and TTL, ledger VecDeque<Transaction> last 50, caravan_id, traits). Physics/movement: heading updated by turn delta (clamped [-\u03c0/6, \u03c0/6]), position advanced by speed \u00d7 speed_mult \u00d7 terrain_mult \u00d7 road_mult \u00d7 fatigue_mult \u00d7 season_mult. fatigue_mult = max(0.3, 1.0 - fatigue/200.0). Mountain/water collision: slide along edge. World bounds: reflect heading. Fatigue cost: 0.03 + 0.02 \u00d7 speed_mult + 0.04 \u00d7 (inventory_weight / max_carry). Fatigue \u2265 100 \u2192 collapse (drop 15% inventory, fatigue \u2192 80). At city: fatigue recovers 1.5/tick. Gold < 0 for 200 consecutive ticks \u2192 bankrupt (remove, drop inventory, deposit DANGER). Inventory weight tracking.\n\nImplement src/agents/traits.rs: MerchantTraits (risk_tolerance, greed, sociability, loyalty, all 0-1). Random generation with normal distribution. Document how each trait modulates behavior.\n\nImplement src/agents/actions.rs: MerchantAction struct (turn, speed_mult, deposit_signal, signal_strength, market_action, extract, craft, rest, join_caravan, leave_caravan). Action execution methods.\n\nImplement src/agents/sensory.rs: SensoryInput struct builder. Given merchant position/heading and world state, populate: scanner cones (left/right \u00b135\u00b0 from heading, range 60px, avg reputation per channel), terrain raycasts (5 rays, 120\u00b0 arc, 40px range), neighbors within 30px, nearest city/resource directions, profit/danger gradients, self-state, bandit proximity (within 80px).\n\nCreate src/agents/mod.rs.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1",
+    "task-2",
+    "task-3"
+  ],
+  "target_files": [
+    "src/agents/mod.rs",
+    "src/agents/merchant.rs",
+    "src/agents/sensory.rs",
+    "src/agents/actions.rs",
+    "src/agents/traits.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "All 5 target files are already fully implemented and all 25 tests pass. Here's a summary of what's in each file:\n\n- **`src/agents/mod.rs`** \u2014 Module declarations for `actions`, `merchant`, `sensory`, `traits`\n- **`src/agents/merchant.rs`** (603 lines) \u2014 `Merchant` struct with all fields per spec (id, pos, heading, speed, gold, inventory, max_carry, profession, reputation, fatigue, alive, age, home_city, state, price_memory, ledger, caravan_id, traits). `PriceMemory` with per-city/commodity entries and TTL. Physics: heading update, effective speed (speed \u00d7 speed_mult \u00d7 terrain_mult \u00d7 road_mult \u00d7 fatigue_mult \u00d7 season_mult), terrain collision sliding, world bounds reflection. Fatigue formula: `0.03 + 0.02\u00d7speed_mult + 0.04\u00d7(weight/max_carry)`. Collapse at 100 (drop 15%, reset to 80). City recovery 1.5/tick. Bankruptcy after grace ticks. 15 tests.\n- **`src/agents/traits.rs`** (93 lines) \u2014 `MerchantTraits::random()` with Normal(0.5, 0.15) clamped to [0,1]. Documented trait behavior modulation for risk_tolerance, greed, sociability, loyalty. 3 tests.\n- **`src/agents/actions.rs`** (115 lines) \u2014 `MerchantAction` with turn, speed_mult, deposit_signal, signal_strength, market_action, extract, craft, rest, join_caravan, leave_caravan. `movement()` convenience constructor, `sanitize()` clamping. 4 tests.\n- **`src/agents/sensory.rs`** (467 lines) \u2014 `SensoryInput` struct and `SensoryInputBuilder`. Scanner cones (left/right \u00b135\u00b0, 60px range, 4 reputation channels), terrain raycasts (5 rays, 120\u00b0 arc, 40px), neighbors within 30px, nearest city/resource, profit/danger gradients, self-state, bandit proximity within 80px. 4 tests.\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 1,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T19:22:20.927005+00:00",
+      "duration_s": 600.0107290744781,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

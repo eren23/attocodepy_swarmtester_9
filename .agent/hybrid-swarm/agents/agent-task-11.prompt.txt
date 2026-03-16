@@ -1,0 +1,23 @@
+# Task: Brain FSMs for all 7 merchant professions
+
+Implement src/brain/interface.rs: Brain trait with method fn decide(&self, sensory: &SensoryInput, merchant: &Merchant) -> MerchantAction.
+
+Implement 7 profession FSMs, each in its own file:
+
+src/brain/trader.rs — SCOUTING (wander toward PROFIT/DEMAND signals, greed-weighted; transition to BUYING when margin > 15% route found) → BUYING (at city: rank commodities by margin, buy highest first, greed affects diversification) → TRANSPORTING (A* pathfinding toward sell city, recompute every 200 ticks, avoid DANGER modulated by risk_tolerance, detour for fatigue > 70) → SELLING (sell, deposit PROFIT/DANGER signal, update price memory) → RESTING → SCOUTING. FLEEING state: triggered by bandit within 50px when not in safe caravan, turn away, max speed, head to nearest city, try join caravan.
+
+src/brain/miner.rs — TRAVELING_TO_NODE (select by proximity × yield × inverse competition, prefer ORE/CLAY, avoid frozen CLAY in winter) → EXTRACTING (3 ticks/unit until full) → TRAVELING_TO_CITY → SELLING → RESTING.
+
+src/brain/farmer.rs — Same structure as miner, targets GRAIN/HERBS/FISH. Summer: prioritize GRAIN/HERBS. Winter: switch to FISH. Deposits OPPORTUNITY at abundant sites.
+
+src/brain/craftsman.rs — BUYING_MATERIALS (evaluate recipes by margin/tick, buy inputs) → CRAFTING (remain at city, use specialization bonus) → SELLING_GOODS (may travel if local price low).
+
+src/brain/soldier.rs — PATROLLING (follow high road-value cells between cities, risk_tolerance affects range) → ESCORTING (attach to caravan, receive fees) → FIGHTING (engage bandits within 30px, 50/50 outcome) → PATROLLING.
+
+src/brain/shipwright.rs — LOADING → SAILING (coast cells only, 2.0× speed, 3.0× carry) → UNLOADING. Requires harbors at both endpoints. Cannot operate in winter.
+
+src/brain/idle.rs — Wander toward nearest city. Await profession assignment.
+
+Create src/brain/mod.rs with factory function mapping Profession → Box<dyn Brain>.
+
+Target files: src/brain/mod.rs, src/brain/interface.rs, src/brain/trader.rs, src/brain/miner.rs, src/brain/farmer.rs, src/brain/craftsman.rs, src/brain/soldier.rs, src/brain/shipwright.rs, src/brain/idle.rs

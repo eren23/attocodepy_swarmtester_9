@@ -1,0 +1,37 @@
+{
+  "task_id": "task-13",
+  "title": "Macroquad rendering, HUD, inspector panels, and controls",
+  "description": "Implement src/rendering/renderer.rs: Main render function drawing terrain (colored by type), cities (circles with population-scaled size, colored by prosperity), resource nodes (small icons by commodity type), merchants (small triangles colored by profession, pointing in heading direction), bandits (red dots), roads (darkened cells proportional to road_value), ground items. Smooth scrolling/zoom if world exceeds screen.\n\nsrc/rendering/reputation_overlay.rs: Semi-transparent heatmap overlay for each reputation channel (toggled by 1-4 keys, 0 off). Color per channel from config.\n\nsrc/rendering/hud.rs: Economy HUD (toggled S): population alive/bankrupt, total gold, trade volume last 200 ticks, per-commodity avg price bars, profession distribution bars, season indicator, avg wealth + Gini, reputation signal mass, top 3 trade routes, active caravan count, bandit camp count. Merchant inspector (left-click): side panel with full state, inventory, price memory, ledger, FSM state, traits, caravan info. City inspector (left-click city): population, treasury, tax, warehouse, upgrades, prosperity, order book summary.\n\nsrc/rendering/trade_flow.rs: Animated arrows between cities proportional to trade volume (toggled A).\n\nsrc/rendering/price_chart.rs: Live multi-line commodity price chart last 1000 ticks (toggled P). Wealth histogram (toggled E). Season timeline at top.\n\nsrc/rendering/controls.rs: Input handler \u2014 Space pause/resume, +/- speed (0.5\u00d7-10\u00d7), right-click drag paint mountains, middle-click place resource, Shift+right-click clear terrain, C market crash, F famine, G gold injection, B bandit surge, W force winter, K kill merchants, H heatmap, O road overlay.\n\nCreate src/rendering/mod.rs.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-12"
+  ],
+  "target_files": [
+    "src/rendering/mod.rs",
+    "src/rendering/renderer.rs",
+    "src/rendering/hud.rs",
+    "src/rendering/reputation_overlay.rs",
+    "src/rendering/trade_flow.rs",
+    "src/rendering/price_chart.rs",
+    "src/rendering/controls.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "All 7 rendering files are already fully implemented and compile successfully. Let me summarize what's in place:\n\n**`src/rendering/mod.rs`** - Module hub with `Camera` (offset/zoom, world_to_screen, screen_to_world, apply_zoom, pan), `render_frame()` orchestrating all layers, constants (BG_COLOR, MARGIN, HUD_TOP_HEIGHT), help overlay, re-exports.\n\n**`src/rendering/renderer.rs`** - Main world drawing: terrain (colored by type with zoom-adaptive cell stepping), cities (circles with population-scaled size, prosperity-colored), resource nodes (diamond icons colored by commodity), merchants (triangles colored by profession, pointing in heading direction), bandits (red dots with camp radius circles), roads (darkened cells proportional to road_value), road overlay.\n\n**`src/rendering/controls.rs`** - Full `InputState` with all toggles. `handle_input()` processes: Space pause/resume, +/- speed (0.5x-10x), right-click drag paint mountains, middle-click place resource, Shift+right clear terrain, C market crash, F famine, G gold injection, B bandit surge, W force winter, K kill merchants, H heatmap, O road overlay, scroll zoom, middle-drag pan, left-click inspect, 1-4/0 reputation overlay, ESC close inspector, ? help.\n\n**`src/rendering/hud.rs`** - Economy HUD (toggled S): population alive/bankrupt, total gold, trade volume last 200 ticks, per-commodity avg price bars, profession distribution bars, season indicator, avg wealth + Gini, reputation signal mass, top 3 trade routes, active caravan count, bandit camp count. Merchant inspector (left-click): full state, inventory, price memory, ledger, FSM state, traits, caravan info. City inspector: population, treasury, tax, warehouse, upgrades, prosperity, order book summary.\n\n**`src/rendering/reputation_overlay.rs`** - Semi-transparent heatmap overlay using config channel colors (toggled 1-4, 0 off), with visible-bounds culling and legend.\n\n**`src/rendering/trade_flow.rs`** - Animated arrows between cities proportional to trade volume (toggled A), with traveling dot animation.\n\n**`src/rendering/price_chart.rs`** - Live multi-line commodity price chart for last 1000 ticks (toggled P), wealth histogram (toggled E), season timeline at top with progress marker.\n\nEverything compiles cleanly (only 1 unrelated warning about a `headless_only` feature flag in `main.rs`).\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 1,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T20:24:27.683858+00:00",
+      "duration_s": 600.0099308490753,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

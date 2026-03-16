@@ -1,0 +1,90 @@
+{"event_type": "info", "timestamp": 1773600945.04144, "task_id": "", "agent_id": "", "data": {}, "message": "Initializing AST service..."}
+{"event_type": "info", "timestamp": 1773600945.364425, "task_id": "", "agent_id": "", "data": {}, "message": "Code-intel service initialized"}
+{"event_type": "info", "timestamp": 1773600945.370719, "task_id": "", "agent_id": "", "data": {}, "message": "Bootstrap context: 794 chars"}
+{"event_type": "info", "timestamp": 1773600945.370796, "task_id": "", "agent_id": "", "data": {}, "message": "Decomposing goal: # Swarm Goal\n\nEmergent Market Economy Simulation \u2014 Rust + macroquad\n\nBuild a real-time economy simul"}
+{"event_type": "decision", "timestamp": 1773601240.563393, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T19:00:40.563337+00:00", "phase": "decomposing", "decision_type": "decomposition_complete", "decision": "Produced 17 tasks", "reasoning": "Goal complexity drove task count"}, "message": "Produced 17 tasks"}
+{"event_type": "info", "timestamp": 1773601240.564199, "task_id": "", "agent_id": "", "data": {}, "message": "Enriched 16 tasks with code-intel data"}
+{"event_type": "info", "timestamp": 1773601240.564658, "task_id": "", "agent_id": "", "data": {}, "message": "DAG: 17 tasks, 9 levels"}
+{"event_type": "info", "timestamp": 1773601240.5686662, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 1: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773601240.5688078, "task_id": "task-1", "agent_id": "agent-task-1", "data": {}, "message": "Spawning worker for task-1"}
+{"event_type": "complete", "timestamp": 1773601529.22524, "task_id": "task-1", "agent_id": "agent-task-1", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-1 completed"}
+{"event_type": "info", "timestamp": 1773601529.2417111, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 2: 4 tasks"}
+{"event_type": "spawn", "timestamp": 1773601529.2420118, "task_id": "task-2", "agent_id": "agent-task-2", "data": {}, "message": "Spawning worker for task-2"}
+{"event_type": "spawn", "timestamp": 1773601529.242055, "task_id": "task-3", "agent_id": "agent-task-3", "data": {}, "message": "Spawning worker for task-3"}
+{"event_type": "spawn", "timestamp": 1773601529.242095, "task_id": "task-4", "agent_id": "agent-task-4", "data": {}, "message": "Spawning worker for task-4"}
+{"event_type": "spawn", "timestamp": 1773601529.242131, "task_id": "task-7", "agent_id": "agent-task-7", "data": {}, "message": "Spawning worker for task-7"}
+{"event_type": "complete", "timestamp": 1773601940.867111, "task_id": "task-2", "agent_id": "agent-task-2", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-2 completed"}
+{"event_type": "complete", "timestamp": 1773601940.8687239, "task_id": "task-3", "agent_id": "agent-task-3", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-3 completed"}
+{"event_type": "complete", "timestamp": 1773601940.868792, "task_id": "task-4", "agent_id": "agent-task-4", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-4 completed"}
+{"event_type": "complete", "timestamp": 1773601940.868845, "task_id": "task-7", "agent_id": "agent-task-7", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-7 completed"}
+{"event_type": "info", "timestamp": 1773601940.893088, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 3: 4 tasks"}
+{"event_type": "spawn", "timestamp": 1773601940.893951, "task_id": "task-5", "agent_id": "agent-task-5", "data": {}, "message": "Spawning worker for task-5"}
+{"event_type": "spawn", "timestamp": 1773601940.8939898, "task_id": "task-6", "agent_id": "agent-task-6", "data": {}, "message": "Spawning worker for task-6"}
+{"event_type": "spawn", "timestamp": 1773601940.894026, "task_id": "task-8", "agent_id": "agent-task-8", "data": {}, "message": "Spawning worker for task-8"}
+{"event_type": "spawn", "timestamp": 1773601940.894059, "task_id": "task-10", "agent_id": "agent-task-10", "data": {}, "message": "Spawning worker for task-10"}
+{"event_type": "complete", "timestamp": 1773602540.91402, "task_id": "task-5", "agent_id": "agent-task-5", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-5 completed"}
+{"event_type": "decision", "timestamp": 1773602540.9267688, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T19:22:20.926751+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-6 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-6 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773602540.926933, "task_id": "task-6", "agent_id": "agent-task-6", "data": {}, "message": "Task task-6 failed (attempt 1/5), retrying"}
+{"event_type": "decision", "timestamp": 1773602540.9270122, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T19:22:20.927008+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-8 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-8 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773602540.9270542, "task_id": "task-8", "agent_id": "agent-task-8", "data": {}, "message": "Task task-8 failed (attempt 1/5), retrying"}
+{"event_type": "decision", "timestamp": 1773602540.92711, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T19:22:20.927109+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-10 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-10 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773602540.927145, "task_id": "task-10", "agent_id": "agent-task-10", "data": {}, "message": "Task task-10 failed (attempt 1/5), retrying"}
+{"event_type": "info", "timestamp": 1773602540.942354, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 4: 3 tasks"}
+{"event_type": "spawn", "timestamp": 1773602540.944463, "task_id": "task-6", "agent_id": "agent-task-6", "data": {}, "message": "Spawning worker for task-6"}
+{"event_type": "spawn", "timestamp": 1773602540.944534, "task_id": "task-8", "agent_id": "agent-task-8", "data": {}, "message": "Spawning worker for task-8"}
+{"event_type": "spawn", "timestamp": 1773602540.944575, "task_id": "task-10", "agent_id": "agent-task-10", "data": {}, "message": "Spawning worker for task-10"}
+{"event_type": "complete", "timestamp": 1773602763.382399, "task_id": "task-6", "agent_id": "agent-task-6", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-6 completed"}
+{"event_type": "complete", "timestamp": 1773602763.382996, "task_id": "task-8", "agent_id": "agent-task-8", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-8 completed"}
+{"event_type": "complete", "timestamp": 1773602763.3830469, "task_id": "task-10", "agent_id": "agent-task-10", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-10 completed"}
+{"event_type": "info", "timestamp": 1773602763.396951, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 5: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773602763.397223, "task_id": "task-9", "agent_id": "agent-task-9", "data": {}, "message": "Spawning worker for task-9"}
+{"event_type": "decision", "timestamp": 1773603363.414264, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T19:36:03.414251+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-9 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-9 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773603363.414551, "task_id": "task-9", "agent_id": "agent-task-9", "data": {}, "message": "Task task-9 failed (attempt 1/5), retrying"}
+{"event_type": "info", "timestamp": 1773603363.428258, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 6: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773603363.428395, "task_id": "task-9", "agent_id": "agent-task-9", "data": {}, "message": "Spawning worker for task-9"}
+{"event_type": "complete", "timestamp": 1773603803.611826, "task_id": "task-9", "agent_id": "agent-task-9", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-9 completed"}
+{"event_type": "info", "timestamp": 1773603803.6274261, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 7: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773603803.6280162, "task_id": "task-11", "agent_id": "agent-task-11", "data": {}, "message": "Spawning worker for task-11"}
+{"event_type": "decision", "timestamp": 1773604403.643177, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T19:53:23.643156+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-11 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-11 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773604403.6436312, "task_id": "task-11", "agent_id": "agent-task-11", "data": {}, "message": "Task task-11 failed (attempt 1/5), retrying"}
+{"event_type": "info", "timestamp": 1773604403.658937, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 8: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773604403.660407, "task_id": "task-11", "agent_id": "agent-task-11", "data": {}, "message": "Spawning worker for task-11"}
+{"event_type": "complete", "timestamp": 1773604881.862883, "task_id": "task-11", "agent_id": "agent-task-11", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-11 completed"}
+{"event_type": "info", "timestamp": 1773604881.878612, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 9: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773604881.8804212, "task_id": "task-12", "agent_id": "agent-task-12", "data": {}, "message": "Spawning worker for task-12"}
+{"event_type": "decision", "timestamp": 1773605481.895744, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T20:11:21.895716+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-12 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-12 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773605481.8961651, "task_id": "task-12", "agent_id": "agent-task-12", "data": {}, "message": "Task task-12 failed (attempt 1/5), retrying"}
+{"event_type": "info", "timestamp": 1773605481.913163, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 10: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773605481.917002, "task_id": "task-12", "agent_id": "agent-task-12", "data": {}, "message": "Spawning worker for task-12"}
+{"event_type": "complete", "timestamp": 1773605667.646623, "task_id": "task-12", "agent_id": "agent-task-12", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-12 completed"}
+{"event_type": "info", "timestamp": 1773605667.6609988, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 11: 3 tasks"}
+{"event_type": "spawn", "timestamp": 1773605667.664483, "task_id": "task-13", "agent_id": "agent-task-13", "data": {}, "message": "Spawning worker for task-13"}
+{"event_type": "spawn", "timestamp": 1773605667.664532, "task_id": "task-14", "agent_id": "agent-task-14", "data": {}, "message": "Spawning worker for task-14"}
+{"event_type": "spawn", "timestamp": 1773605667.664566, "task_id": "task-15", "agent_id": "agent-task-15", "data": {}, "message": "Spawning worker for task-15"}
+{"event_type": "decision", "timestamp": 1773606267.683906, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T20:24:27.683892+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-13 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-13 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773606267.684134, "task_id": "task-13", "agent_id": "agent-task-13", "data": {}, "message": "Task task-13 failed (attempt 1/5), retrying"}
+{"event_type": "decision", "timestamp": 1773606267.684257, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T20:24:27.684255+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-14 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-14 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773606267.684302, "task_id": "task-14", "agent_id": "agent-task-14", "data": {}, "message": "Task task-14 failed (attempt 1/5), retrying"}
+{"event_type": "decision", "timestamp": 1773606267.684347, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T20:24:27.684346+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-15 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-15 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773606267.6843789, "task_id": "task-15", "agent_id": "agent-task-15", "data": {}, "message": "Task task-15 failed (attempt 1/5), retrying"}
+{"event_type": "info", "timestamp": 1773606267.699028, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 12: 3 tasks"}
+{"event_type": "spawn", "timestamp": 1773606267.7045279, "task_id": "task-13", "agent_id": "agent-task-13", "data": {}, "message": "Spawning worker for task-13"}
+{"event_type": "spawn", "timestamp": 1773606267.7046149, "task_id": "task-14", "agent_id": "agent-task-14", "data": {}, "message": "Spawning worker for task-14"}
+{"event_type": "spawn", "timestamp": 1773606267.7046568, "task_id": "task-15", "agent_id": "agent-task-15", "data": {}, "message": "Spawning worker for task-15"}
+{"event_type": "complete", "timestamp": 1773606867.7298439, "task_id": "task-13", "agent_id": "agent-task-13", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-13 completed"}
+{"event_type": "complete", "timestamp": 1773606867.73018, "task_id": "task-14", "agent_id": "agent-task-14", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-14 completed"}
+{"event_type": "decision", "timestamp": 1773606867.730325, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T20:34:27.730321+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-15 (attempt 2/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-15 (attempt 2/5)"}
+{"event_type": "retry", "timestamp": 1773606867.730371, "task_id": "task-15", "agent_id": "agent-task-15", "data": {}, "message": "Task task-15 failed (attempt 2/5), retrying"}
+{"event_type": "info", "timestamp": 1773606867.746946, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 13: 2 tasks"}
+{"event_type": "spawn", "timestamp": 1773606867.751957, "task_id": "task-15", "agent_id": "agent-task-15", "data": {}, "message": "Spawning worker for task-15"}
+{"event_type": "spawn", "timestamp": 1773606867.7520661, "task_id": "task-16", "agent_id": "agent-task-16", "data": {}, "message": "Spawning worker for task-16"}
+{"event_type": "complete", "timestamp": 1773607467.774977, "task_id": "task-15", "agent_id": "agent-task-15", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-15 completed"}
+{"event_type": "decision", "timestamp": 1773607467.775682, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-15T20:44:27.775677+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-16 (attempt 1/5)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-16 (attempt 1/5)"}
+{"event_type": "retry", "timestamp": 1773607467.775774, "task_id": "task-16", "agent_id": "agent-task-16", "data": {}, "message": "Task task-16 failed (attempt 1/5), retrying"}
+{"event_type": "info", "timestamp": 1773607467.792703, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 14: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773607467.7952058, "task_id": "task-16", "agent_id": "agent-task-16", "data": {}, "message": "Spawning worker for task-16"}
+{"event_type": "complete", "timestamp": 1773607684.895797, "task_id": "task-16", "agent_id": "agent-task-16", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-16 completed"}
+{"event_type": "info", "timestamp": 1773607684.910677, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 15: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773607684.910799, "task_id": "task-17", "agent_id": "agent-task-17", "data": {}, "message": "Spawning worker for task-17"}
+{"event_type": "complete", "timestamp": 1773608078.722223, "task_id": "task-17", "agent_id": "agent-task-17", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-17 completed"}
+{"event_type": "complete", "timestamp": 1773608078.742733, "task_id": "", "agent_id": "", "data": {"done": 17}, "message": "Swarm complete: 17/17 tasks in 7133.7s"}

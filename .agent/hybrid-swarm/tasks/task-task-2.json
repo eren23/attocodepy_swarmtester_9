@@ -1,0 +1,23 @@
+{
+  "task_id": "task-2",
+  "title": "Terrain system with Perlin noise heightmap",
+  "description": "Implement src/world/terrain.rs: Generate a 2D heightmap using Perlin noise (4 octaves) from a configurable seed. The heightmap covers the world dimensions (default 1600x1000). Classify each cell into TerrainType based on height thresholds: WATER (<sea_level 0.25), PLAINS (0.0-0.3 above sea level), FOREST (0.3-0.5), HILLS (0.5-0.7), MOUNTAINS (0.7-1.0). Identify COAST cells (WATER adjacent to land). Provide methods: terrain_at(x, y) -> TerrainType, height_at(x, y) -> f32, speed_multiplier(terrain_type) -> f32 (PLAINS 1.0, FOREST 0.6, HILLS 0.4, COAST 0.8, MOUNTAINS/WATER 0.0 impassable), is_passable(x, y) -> bool, is_coastal(x, y) -> bool. Support seasonal speed modifier (winter \u00d70.7 global). Same seed must produce identical terrain. Create src/world/mod.rs with module declarations.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1"
+  ],
+  "target_files": [
+    "src/world/mod.rs",
+    "src/world/terrain.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "Everything compiles and all tests pass. Here's what was implemented:\n\n**`src/world/mod.rs`** \u2014 Module declaration for `terrain`.\n\n**`src/world/terrain.rs`** \u2014 `Terrain` struct with:\n- **`new(config)`** \u2014 Generates a row-major heightmap using 4-octave fBm Perlin noise from `WorldConfig.terrain_seed`, normalized to [0, 1]. Classifies cells via `TerrainType::from_height()` (already in `types.rs`), then identifies Coast cells (Water adjacent to land) in a second pass.\n- **`terrain_at(x, y)`** \u2014 Returns the `TerrainType` at a coordinate\n- **`height_at(x, y)`** \u2014 Returns the raw height value in [0, 1]\n- **`speed_multiplier(terrain)`** \u2014 Delegates to `TerrainType::speed_multiplier()` (Plains 1.0, Forest 0.6, Hills 0.4, Coast 0.8, Mountains/Water 0.0)\n- **`speed_at(x, y, season)`** \u2014 Speed with seasonal modifier (Winter \u00d70.7)\n- **`is_passable(x, y)`** / **`is_coastal(x, y)`** \u2014 Query helpers\n- **Determinism** \u2014 Same seed always produces identical terrain\n- **6 unit tests** covering determinism, normalization, classification, impassability, winter modifier, and coast adjacency\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 0,
+  "attempt_history": []
+}
