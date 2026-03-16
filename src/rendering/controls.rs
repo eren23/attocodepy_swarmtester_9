@@ -323,6 +323,7 @@ fn paint_terrain(world: &mut World, wx: f32, wy: f32, terrain_type: TerrainType)
     let y = wy as u32;
     if x < world.terrain.width() && y < world.terrain.height() {
         world.terrain.set_terrain_at(x, y, terrain_type);
+        world.terrain.rebuild_components();
     }
 }
 

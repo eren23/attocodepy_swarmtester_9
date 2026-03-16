@@ -1,5 +1,11 @@
-# Task: Terrain system with Perlin noise heightmap
+# Task: Integrate pathfinding into merchant navigation
 
-Implement src/world/terrain.rs: Generate a 2D heightmap using Perlin noise (4 octaves) from a configurable seed. The heightmap covers the world dimensions (default 1600x1000). Classify each cell into TerrainType based on height thresholds: WATER (<sea_level 0.25), PLAINS (0.0-0.3 above sea level), FOREST (0.3-0.5), HILLS (0.5-0.7), MOUNTAINS (0.7-1.0). Identify COAST cells (WATER adjacent to land). Provide methods: terrain_at(x, y) -> TerrainType, height_at(x, y) -> f32, speed_multiplier(terrain_type) -> f32 (PLAINS 1.0, FOREST 0.6, HILLS 0.4, COAST 0.8, MOUNTAINS/WATER 0.0 impassable), is_passable(x, y) -> bool, is_coastal(x, y) -> bool. Support seasonal speed modifier (winter ×0.7 global). Same seed must produce identical terrain. Create src/world/mod.rs with module declarations.
+Update merchant navigation to use the new A* pathfinding instead of pure gradient-following. Changes needed:
 
-Target files: src/world/mod.rs, src/world/terrain.rs
+1. **src/agents/sensory.rs** — In find_nearest_city(), filter candidates to only cities reachable via terrain.is_reachable(). If no reachable city exists, fall back to the current nearest-Euclidean behavior. Add a find_path_to_city() method that returns waypoints from terrain.find_path().
+
+2. **src/agents/merchant.rs** — Add a waypoint queue (Vec<(u32,u32)> or VecDeque) field to the Merchant struct. When a merchant selects a new destination city, compute the A* path and store waypoints. During tick_move(), steer toward the next waypoint instead of directly toward the city. Pop waypoints when within ~1.5 tiles. Recompute path if merchant gets stuck (same position for N ticks) or destination changes.
+
+3. **src/brain/trader.rs** — Update the steering logic: when waypoints are available, compute heading toward the next waypoint rather than using the gradient-based city heading. Keep terrain_avoidance() as a secondary safety layer but the primary navigation should follow waypoints. The existing collision resolution in resolve_terrain_collision() should remain as a last-resort fallback.
+
+Target files: src/agents/sensory.rs, src/agents/merchant.rs, src/brain/trader.rs

@@ -1,0 +1,33 @@
+{
+  "task_id": "task-6",
+  "title": "Market engine with order books, matching, and price history",
+  "description": "Implement src/market/order_book.rs: Order struct (agent_id, commodity, side Buy/Sell, price, quantity, tick_placed, ttl). OrderBook struct per city per commodity. Methods: (1) place_order \u2014 add to book. (2) match_orders \u2014 price-time priority: best price first, then earliest. Execute at midpoint price. Partial fills keep remainder. Tax deducted from buyer (tax_rate \u00d7 value). No self-matching. (3) expire_orders \u2014 remove orders past TTL (default 200 ticks). (4) generate_npc_demand \u2014 city generates passive buy orders: qty = population \u00d7 0.01 \u00d7 necessity_weight (PROVISIONS 3.0, GRAIN 2.0, TOOLS 1.5, MEDICINE 1.5, BRICKS 1.0, others 0.5). NPC price = last_known \u00d7 (1.0 + 0.05 \u00d7 scarcity). NPC gold from city treasury; austerity when treasury < 50g. (5) price_history \u2014 per-commodity time series (last 2000 ticks), recording execution prices. Provide market_hall upgrade support: doubles order book capacity. Implement dynamic tax adjustment logic (called from city). Create src/market/mod.rs.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1",
+    "task-4"
+  ],
+  "target_files": [
+    "src/market/mod.rs",
+    "src/market/order_book.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "Both files are already fully implemented and all 29 tests pass. Here's a summary of what's in place:\n\n**`src/market/mod.rs`** \u2014 module declarations for `order_book` and `crafting`.\n\n**`src/market/order_book.rs`** \u2014 complete implementation:\n\n| Feature | Status |\n|---------|--------|\n| `Order` struct (agent_id, commodity, side, price, quantity, tick_placed, ttl) | Defined in `types.rs:490-499` |\n| `OrderBook` per city with buy/sell books + price history | `order_book.rs:39-45` |\n| `place_order` \u2014 capacity-checked insertion | `order_book.rs:87-98` |\n| `match_orders` \u2014 price-time priority, midpoint execution, partial fills, no self-match, tax deduction | `order_book.rs:110-149` + `match_orders_inner` at line 294 |\n| `expire_orders` \u2014 TTL-based removal (default 200 ticks) | `order_book.rs:154-161` |\n| `generate_npc_demand` \u2014 population \u00d7 0.01 \u00d7 necessity_weight, scarcity pricing, treasury-funded, austerity mode (<50g) | `order_book.rs:173-228` |\n| `price_history` \u2014 per-commodity VecDeque capped at 2000 entries, VWAP averaging | `order_book.rs:233-264` |\n| Market hall upgrade \u2014 doubles capacity (100 \u2192 200) | `order_book.rs:59-65` |\n| `compute_dynamic_tax` \u2014 volume/treasury/population-based adjustment, clamped [0.0, 0.15] | `order_book.rs:378-408` |\n| Necessity weights: PROVISIONS 3.0, GRAIN 2.0, TOOLS 1.5, MEDICINE 1.5, BRICKS 1.0, others 0.5 | `types.rs:100-109` |\n\nEverything compiles and all tests pass.\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 1,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T19:22:20.926533+00:00",
+      "duration_s": 600.01220870018,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

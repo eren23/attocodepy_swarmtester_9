@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::config::MerchantConfig;
 use crate::types::{
-    Commodity, NeighborInfo, ReputationChannel, Season, TerrainRay, TerrainType, Vec2,
+    CityId, Commodity, NeighborInfo, ReputationChannel, Season, TerrainRay, TerrainType, Vec2,
 };
 use crate::world::city::City;
 use crate::world::reputation::ReputationGrid;
@@ -261,6 +261,34 @@ impl<'a> SensoryInputBuilder<'a> {
     // ── Navigation helpers ──────────────────────────────────────────────────
 
     fn find_nearest_city(&self, pos: Vec2) -> (Vec2, f32) {
+        let start = (
+            (pos.x as u32).min(self.terrain.width().saturating_sub(1)),
+            (pos.y as u32).min(self.terrain.height().saturating_sub(1)),
+        );
+
+        // Prefer reachable cities (same connected component).
+        let reachable = self
+            .cities
+            .iter()
+            .filter(|c| {
+                let goal = (
+                    (c.position.x as u32).min(self.terrain.width().saturating_sub(1)),
+                    (c.position.y as u32).min(self.terrain.height().saturating_sub(1)),
+                );
+                self.terrain.is_reachable(start, goal)
+            })
+            .map(|c| {
+                let delta = c.position - pos;
+                let dist = delta.length();
+                (if dist > 1e-6 { delta.normalized() } else { Vec2::ZERO }, dist)
+            })
+            .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap());
+
+        if let Some(result) = reachable {
+            return result;
+        }
+
+        // Fallback: nearest by Euclidean distance (no reachable city found).
         self.cities
             .iter()
             .map(|c| {
@@ -270,6 +298,21 @@ impl<'a> SensoryInputBuilder<'a> {
             })
             .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap())
             .unwrap_or((Vec2::ZERO, f32::MAX))
+    }
+
+    /// Compute an A* path from the merchant's position to a specific city.
+    /// Returns grid-coordinate waypoints, or `None` if unreachable.
+    pub fn find_path_to_city(&self, merchant_pos: Vec2, city_id: CityId) -> Option<Vec<(u32, u32)>> {
+        let city = self.cities.iter().find(|c| c.id == city_id)?;
+        let start = (
+            (merchant_pos.x as u32).min(self.terrain.width().saturating_sub(1)),
+            (merchant_pos.y as u32).min(self.terrain.height().saturating_sub(1)),
+        );
+        let goal = (
+            (city.position.x as u32).min(self.terrain.width().saturating_sub(1)),
+            (city.position.y as u32).min(self.terrain.height().saturating_sub(1)),
+        );
+        self.terrain.find_path(start, goal)
     }
 
     fn find_home_city(&self, pos: Vec2) -> (Vec2, f32) {

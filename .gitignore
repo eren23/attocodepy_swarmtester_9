@@ -1,1 +1,3 @@
 target/
+.attocode/cache/
+.attocode/vectors/

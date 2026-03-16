@@ -1,0 +1,6 @@
+{"event_type": "info", "timestamp": 1773676354.151076, "task_id": "", "agent_id": "", "data": {}, "message": "Initializing AST service..."}
+{"event_type": "info", "timestamp": 1773676355.5358279, "task_id": "", "agent_id": "", "data": {}, "message": "Code-intel service initialized"}
+{"event_type": "info", "timestamp": 1773676404.2930539, "task_id": "", "agent_id": "", "data": {}, "message": "Bootstrap context: 4655 chars"}
+{"event_type": "info", "timestamp": 1773676404.293314, "task_id": "", "agent_id": "", "data": {}, "message": "Decomposing goal: Fix merchants sticking to gray tiles \u2014 they should pathfind around gray areas or\n  avoid them as des"}
+{"event_type": "decision", "timestamp": 1773676543.878079, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-16T15:55:43.877990+00:00", "phase": "decomposing", "decision_type": "decomposition_complete", "decision": "Produced 3 tasks", "reasoning": "Goal complexity drove task count"}, "message": "Produced 3 tasks"}
+{"event_type": "info", "timestamp": 1773676543.879701, "task_id": "", "agent_id": "", "data": {}, "message": "Enriched 3 tasks with code-intel data"}

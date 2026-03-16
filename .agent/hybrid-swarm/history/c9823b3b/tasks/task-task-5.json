@@ -1,0 +1,23 @@
+{
+  "task_id": "task-5",
+  "title": "Resource nodes with extraction, depletion, and seasons",
+  "description": "Implement src/world/resource_node.rs: ResourceNode struct with fields: id, position (Vec2), commodity (one of TIMBER, ORE, GRAIN, FISH, CLAY, HERBS), base_yield (1-5 units per extraction), depletion (f32, 0.0-1.0), currently_harvested (bool flag per tick). Methods: (1) extract(season) -> f32: returns yield adjusted for depletion (at 80% depletion yield drops to 50%, at 100% yields 0) and seasonal modifiers (GRAIN/HERBS \u00d72 summer \u00d70.3 winter; FISH \u00d71.5 spring \u00d70.5 autumn; CLAY \u00d70 in winter if in northern 30% of map; TIMBER/ORE unaffected). Extraction takes 3 ticks per unit. (2) tick_regeneration: if not harvested this tick, recover depletion at 0.05%/tick. Exhausted nodes (100%) recover to 20% after 2000 ticks of no extraction. (3) Scatter placement: generate 20-30 nodes avoiding mountains and water, distributed across the map. Ensure at least one of each commodity type exists.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-1",
+    "task-2"
+  ],
+  "target_files": [
+    "src/world/resource_node.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "Everything compiles. Here's what was implemented in `src/world/resource_node.rs`:\n\n**`ResourceNode` struct** with fields: `id`, `position` (Vec2), `commodity` (raw tier-0 only), `base_yield` (1-5), `depletion` (0.0-1.0), `currently_harvested`, and internal `ticks_exhausted_idle`.\n\n**Methods:**\n\n- **`extract(season, map_height) -> f32`** \u2014 Returns yield adjusted by a piecewise depletion multiplier (100% at 0% depletion \u2192 50% at 80% \u2192 0% at 100%) and seasonal modifiers:\n  - GRAIN/HERBS: \u00d72 summer, \u00d70.3 winter\n  - FISH: \u00d71.5 spring, \u00d70.5 autumn\n  - CLAY: \u00d70 winter in northern 30% of map\n  - TIMBER/ORE: unaffected\n  - Advances depletion proportional to yield extracted\n\n- **`tick_regeneration()`** \u2014 If not harvested: recovers 0.05%/tick. Exhausted nodes (100%) snap to 80% depletion (20% capacity) after 2000 idle ticks. Harvesting resets the idle counter.\n\n- **`scatter(count, ...)`** \u2014 Rejection-samples passable positions, guarantees at least one of each raw commodity, enforces minimum 6 nodes.\n\n- **`generate(config, ...)`** \u2014 Convenience wrapper using `WorldConfig`.\n\n**Constants:** `TICKS_PER_UNIT = 3` (exposed for callers to enforce extraction timing).\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 0,
+  "attempt_history": []
+}

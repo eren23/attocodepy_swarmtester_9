@@ -1,7 +1,13 @@
-# Task: Reputation grid and road grid overlay systems
+# Task: Integration tests for merchant gray-tile avoidance
 
-Implement src/world/reputation.rs: A grid overlay (cell_size ~8px) with 4 independent signal channels (PROFIT, DEMAND, DANGER, OPPORTUNITY). Each channel is a 2D array of f32 (world_size / cell_size resolution, ~200x125). Per tick: (1) deposit — merchants write signals additively, clamped at 1.0; (2) diffusion — separable Gaussian blur per channel with configurable sigma; (3) decay — multiply by channel-specific decay factor. Provide bilinear interpolation sampling at arbitrary world positions. Scanner sampling: given position and heading, sample average signal in left/right cones (±35° from heading, range 60px). Compute gradient vectors for PROFIT and DANGER channels at a position. Target: reputation processing < 2ms per tick — use flat arrays, avoid heap allocation in hot loop.
+Write integration tests verifying merchants no longer get stuck on gray (impassable) tiles. Create a new test file tests/test_pathfinding.rs with:
 
-Implement src/world/road.rs: Same grid resolution. Each cell has a road_value (f32, 0.0-1.0). Traversal: when a merchant crosses a cell, increment road_value by +0.002 (clamped at 1.0). Decay: multiply all cells by 0.9998 per tick. Speed bonus: 1.0 + 0.6 × road_value. Provide method to get road speed multiplier at world position.
+1. **test_pathfinding_around_mountain_range** — Construct a small terrain grid with a mountain range separating two passable areas. Call terrain.find_path() and assert a path is returned that avoids all impassable cells.
 
-Target files: src/world/reputation.rs, src/world/road.rs
+2. **test_unreachable_destination_returns_none** — Create terrain where goal is completely surrounded by mountains. Assert find_path() returns None and is_reachable() returns false.
+
+3. **test_merchant_does_not_stick_to_gray_tiles** — Set up a minimal world with 2 cities separated by a mountain range. Spawn a merchant at city A targeting city B. Run 500+ ticks and assert: (a) merchant is never on an impassable tile, (b) merchant eventually reaches city B or is making progress (position changes over any 50-tick window). Use the existing test helpers in tests/common/ for world setup.
+
+4. **test_path_prefers_faster_terrain** — Create terrain with a short path through hills (slow) and a longer path through plains (fast). Assert the path through plains is chosen when the cost difference favors it.
+
+Target files: tests/test_pathfinding.rs

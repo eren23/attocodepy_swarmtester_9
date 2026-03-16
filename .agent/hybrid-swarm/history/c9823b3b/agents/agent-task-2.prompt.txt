@@ -1,0 +1,5 @@
+# Task: Terrain system with Perlin noise heightmap
+
+Implement src/world/terrain.rs: Generate a 2D heightmap using Perlin noise (4 octaves) from a configurable seed. The heightmap covers the world dimensions (default 1600x1000). Classify each cell into TerrainType based on height thresholds: WATER (<sea_level 0.25), PLAINS (0.0-0.3 above sea level), FOREST (0.3-0.5), HILLS (0.5-0.7), MOUNTAINS (0.7-1.0). Identify COAST cells (WATER adjacent to land). Provide methods: terrain_at(x, y) -> TerrainType, height_at(x, y) -> f32, speed_multiplier(terrain_type) -> f32 (PLAINS 1.0, FOREST 0.6, HILLS 0.4, COAST 0.8, MOUNTAINS/WATER 0.0 impassable), is_passable(x, y) -> bool, is_coastal(x, y) -> bool. Support seasonal speed modifier (winter ×0.7 global). Same seed must produce identical terrain. Create src/world/mod.rs with module declarations.
+
+Target files: src/world/mod.rs, src/world/terrain.rs

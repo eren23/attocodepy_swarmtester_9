@@ -1,1 +1,2 @@
 {"timestamp": 1773601529.220217, "agent_id": "agent-task-1", "task_id": "task-1", "entry_type": "cost_delta", "data": {"cost_usd": 0.0, "tokens_used": 0, "duration_s": 288.6476950645447, "files_modified": [], "error": ""}}
+{"timestamp": 1773688741.319251, "agent_id": "agent-task-1", "task_id": "task-1", "entry_type": "cost_delta", "data": {"cost_usd": 0.0, "tokens_used": 0, "duration_s": 119.9457950592041, "files_modified": [], "error": ""}}

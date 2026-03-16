@@ -1,0 +1,5 @@
+# Task: Market engine with order books, matching, and price history
+
+Implement src/market/order_book.rs: Order struct (agent_id, commodity, side Buy/Sell, price, quantity, tick_placed, ttl). OrderBook struct per city per commodity. Methods: (1) place_order — add to book. (2) match_orders — price-time priority: best price first, then earliest. Execute at midpoint price. Partial fills keep remainder. Tax deducted from buyer (tax_rate × value). No self-matching. (3) expire_orders — remove orders past TTL (default 200 ticks). (4) generate_npc_demand — city generates passive buy orders: qty = population × 0.01 × necessity_weight (PROVISIONS 3.0, GRAIN 2.0, TOOLS 1.5, MEDICINE 1.5, BRICKS 1.0, others 0.5). NPC price = last_known × (1.0 + 0.05 × scarcity). NPC gold from city treasury; austerity when treasury < 50g. (5) price_history — per-commodity time series (last 2000 ticks), recording execution prices. Provide market_hall upgrade support: doubles order book capacity. Implement dynamic tax adjustment logic (called from city). Create src/market/mod.rs.
+
+Target files: src/market/mod.rs, src/market/order_book.rs

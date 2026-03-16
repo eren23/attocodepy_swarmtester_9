@@ -1,0 +1,43 @@
+{
+  "task_id": "task-11",
+  "title": "Brain FSMs for all 7 merchant professions",
+  "description": "Implement src/brain/interface.rs: Brain trait with method fn decide(&self, sensory: &SensoryInput, merchant: &Merchant) -> MerchantAction.\n\nImplement 7 profession FSMs, each in its own file:\n\nsrc/brain/trader.rs \u2014 SCOUTING (wander toward PROFIT/DEMAND signals, greed-weighted; transition to BUYING when margin > 15% route found) \u2192 BUYING (at city: rank commodities by margin, buy highest first, greed affects diversification) \u2192 TRANSPORTING (A* pathfinding toward sell city, recompute every 200 ticks, avoid DANGER modulated by risk_tolerance, detour for fatigue > 70) \u2192 SELLING (sell, deposit PROFIT/DANGER signal, update price memory) \u2192 RESTING \u2192 SCOUTING. FLEEING state: triggered by bandit within 50px when not in safe caravan, turn away, max speed, head to nearest city, try join caravan.\n\nsrc/brain/miner.rs \u2014 TRAVELING_TO_NODE (select by proximity \u00d7 yield \u00d7 inverse competition, prefer ORE/CLAY, avoid frozen CLAY in winter) \u2192 EXTRACTING (3 ticks/unit until full) \u2192 TRAVELING_TO_CITY \u2192 SELLING \u2192 RESTING.\n\nsrc/brain/farmer.rs \u2014 Same structure as miner, targets GRAIN/HERBS/FISH. Summer: prioritize GRAIN/HERBS. Winter: switch to FISH. Deposits OPPORTUNITY at abundant sites.\n\nsrc/brain/craftsman.rs \u2014 BUYING_MATERIALS (evaluate recipes by margin/tick, buy inputs) \u2192 CRAFTING (remain at city, use specialization bonus) \u2192 SELLING_GOODS (may travel if local price low).\n\nsrc/brain/soldier.rs \u2014 PATROLLING (follow high road-value cells between cities, risk_tolerance affects range) \u2192 ESCORTING (attach to caravan, receive fees) \u2192 FIGHTING (engage bandits within 30px, 50/50 outcome) \u2192 PATROLLING.\n\nsrc/brain/shipwright.rs \u2014 LOADING \u2192 SAILING (coast cells only, 2.0\u00d7 speed, 3.0\u00d7 carry) \u2192 UNLOADING. Requires harbors at both endpoints. Cannot operate in winter.\n\nsrc/brain/idle.rs \u2014 Wander toward nearest city. Await profession assignment.\n\nCreate src/brain/mod.rs with factory function mapping Profession \u2192 Box<dyn Brain>.",
+  "status": "done",
+  "task_kind": "implement",
+  "role_hint": "impl",
+  "deps": [
+    "task-6",
+    "task-7",
+    "task-8",
+    "task-9",
+    "task-10"
+  ],
+  "target_files": [
+    "src/brain/mod.rs",
+    "src/brain/interface.rs",
+    "src/brain/trader.rs",
+    "src/brain/miner.rs",
+    "src/brain/farmer.rs",
+    "src/brain/craftsman.rs",
+    "src/brain/soldier.rs",
+    "src/brain/shipwright.rs",
+    "src/brain/idle.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "All 162 tests pass. Here's a summary of what was implemented:\n\n**Created 5 new brain FSMs:**\n\n- **`src/brain/farmer.rs`** \u2014 `FarmerBrain`: TRAVELING_TO_NODE \u2192 EXTRACTING \u2192 TRAVELING_TO_CITY \u2192 SELLING \u2192 RESTING. Targets GRAIN/HERBS in summer, FISH in winter. Deposits OPPORTUNITY signals at abundant sites.\n\n- **`src/brain/craftsman.rs`** \u2014 `CraftsmanBrain`: BUYING_MATERIALS \u2192 CRAFTING \u2192 SELLING_GOODS. Evaluates Tier 1 recipes by margin/tick, buys raw inputs with lowest stock, crafts via `Recipe` action, sells crafted goods (highest tier first), travels to other cities if local prices are low (profit gradient).\n\n- **`src/brain/soldier.rs`** \u2014 `SoldierBrain`: PATROLLING \u2192 ESCORTING \u2192 FIGHTING. Follows high road-value cells, patrols toward DANGER signals (risk_tolerance-weighted), escorts nearby caravans (sociability-gated), charges bandits within 30px+risk_tolerance range. Range from cities modulated by risk_tolerance.\n\n- **`src/brain/shipwright.rs`** \u2014 `ShipwrightBrain`: LOADING \u2192 SAILING \u2192 UNLOADING. Buys bulk cargo at harbors, navigates coast cells (steers toward Coast terrain rays), sells at destination. Winter shutdown forces rest at nearest city.\n\n- **`src/brain/idle.rs`** \u2014 `IdleBrain`: Wanders toward nearest city at low speed, rests on arrival. Awaits profession assignment.\n\n**Created `src/brain/mod.rs`** with `brain_for_profession(Profession) -> Box<dyn Brain>` factory function mapping all 7 professions to their Brain implementations.\n\n**Pre-existing files** (untouched): `interface.rs` (Brain trait), `trader.rs` (TraderBrain), `miner.rs` (MinerBrain). All new brains reuse the shared steering utilities (`heading_delta_toward`, `steer_toward_signal`, `terrain_avoidance`) from `trader.rs`.\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 1,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T19:53:23.643124+00:00",
+      "duration_s": 600.0081422328949,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

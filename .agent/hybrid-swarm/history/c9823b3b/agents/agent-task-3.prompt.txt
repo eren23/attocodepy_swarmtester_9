@@ -1,0 +1,7 @@
+# Task: Reputation grid and road grid overlay systems
+
+Implement src/world/reputation.rs: A grid overlay (cell_size ~8px) with 4 independent signal channels (PROFIT, DEMAND, DANGER, OPPORTUNITY). Each channel is a 2D array of f32 (world_size / cell_size resolution, ~200x125). Per tick: (1) deposit — merchants write signals additively, clamped at 1.0; (2) diffusion — separable Gaussian blur per channel with configurable sigma; (3) decay — multiply by channel-specific decay factor. Provide bilinear interpolation sampling at arbitrary world positions. Scanner sampling: given position and heading, sample average signal in left/right cones (±35° from heading, range 60px). Compute gradient vectors for PROFIT and DANGER channels at a position. Target: reputation processing < 2ms per tick — use flat arrays, avoid heap allocation in hot loop.
+
+Implement src/world/road.rs: Same grid resolution. Each cell has a road_value (f32, 0.0-1.0). Traversal: when a merchant crosses a cell, increment road_value by +0.002 (clamped at 1.0). Decay: multiply all cells by 0.9998 per tick. Speed bonus: 1.0 + 0.6 × road_value. Provide method to get road speed multiplier at world position.
+
+Target files: src/world/reputation.rs, src/world/road.rs

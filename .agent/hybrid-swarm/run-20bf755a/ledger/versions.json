@@ -1,0 +1,6 @@
+{
+  "src/world/terrain.rs": "c6e8c47a3fd4bd7ce99e5af737b30c44c53a926b11df8288c1198b0ac5417cf5",
+  "src/agents/sensory.rs": "7aad8a4a56783b348a34c8940949cf17f281ec1ff4d2184d66b6b698ce0dfb0b",
+  "src/agents/merchant.rs": "8a3e741156e228a6aa2717e280fe60ea6e4342f025afff840f923631e7f740cd",
+  "src/brain/trader.rs": "1e2a9fb6d0ad8af923962937f7bc95fbf6cf724cf11dc6231936c2ff20289ae5"
+}

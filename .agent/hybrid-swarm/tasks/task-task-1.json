@@ -1,25 +1,21 @@
 {
   "task_id": "task-1",
-  "title": "Project scaffold, shared types, and config loader",
-  "description": "Create the Rust project skeleton: Cargo.toml with dependencies (macroquad, noise, serde, toml, rand, serde_json, clap), src/lib.rs with module declarations, src/main.rs with a minimal macroquad game loop placeholder. Implement src/types.rs with all shared enums and structs: Commodity (TIMBER, ORE, GRAIN, FISH, CLAY, HERBS, TOOLS, MEDICINE, BRICKS, METALWORK, PROVISIONS, POTTERY, WEAPONS, FURNITURE, ARMOR, ALCHEMY, MACHINERY, FEAST_GOODS, ELITE_GEAR, AUTOMATON, ELIXIR, LUXURY_SET), Season (SPRING, SUMMER, AUTUMN, WINTER), TerrainType (PLAINS, FOREST, HILLS, MOUNTAINS, WATER, COAST), Profession (TRADER, MINER, FARMER, CRAFTSMAN, SOLDIER, SHIPWRIGHT, IDLE), Side (Buy, Sell), ReputationChannel (PROFIT, DEMAND, DANGER, OPPORTUNITY), AgentState enum, Vec2 wrapper if not using macroquad's, CityId, and MarketAction enum. Implement src/config.rs: define EconomyConfig struct mirroring all TOML sections (world, city, merchant, bandit, reputation, road, professions) with serde Deserialize. Write economy_config.toml with all default values from the spec. Config loader should validate ranges (e.g., tax_rate_range, population_range) and return errors for invalid configs.",
+  "title": "Add A* grid pathfinding to terrain module",
+  "description": "Implement an A* pathfinding function in src/world/terrain.rs that computes a walkable tile-level path between two positions, respecting is_passable(). The function signature should be roughly: pub fn find_path(&self, start: (u32,u32), goal: (u32,u32)) -> Option<Vec<(u32,u32)>>. Use 8-directional neighbors. Cost should incorporate the terrain speed_multiplier() so faster terrain is preferred. Return None if no path exists (goal unreachable). Also add a pub fn is_reachable(&self, start: (u32,u32), goal: (u32,u32)) -> bool convenience wrapper. Mountains (speed_multiplier=0.0) and Water (speed_multiplier=0.0) must be excluded from the search since is_passable() returns false for them. Keep the implementation simple \u2014 a BinaryHeap-based A* with Euclidean heuristic. No external crate dependencies.",
   "status": "done",
   "task_kind": "implement",
-  "role_hint": "impl",
+  "role_hint": "worker",
   "deps": [],
   "target_files": [
-    "Cargo.toml",
-    "src/main.rs",
-    "src/lib.rs",
-    "src/types.rs",
-    "src/config.rs",
-    "economy_config.toml"
+    "src/world/terrain.rs"
   ],
   "read_files": [],
   "files_modified": [],
-  "result_summary": "All done. Here's what was created:\n\n**`Cargo.toml`** \u2014 Dependencies: macroquad, noise, serde, toml, rand, serde_json, clap\n\n**`src/types.rs`** \u2014 All shared types:\n- `Commodity` (22 variants, Tier 0\u20133) with `tier()`, `necessity_weight()`, `ALL`/`RAW` constants\n- `Season` with `next()`, travel/food/bandit modifiers\n- `TerrainType` with `speed_multiplier()`, `is_passable()`, `from_height()`\n- `Profession` (7 variants), `Side`, `ReputationChannel`\n- `AgentState` (19 FSM states covering all professions)\n- `Vec2` with full arithmetic ops, `normalized()`, `distance()`, `from_angle()`, `lerp()`\n- `CityId`, `MarketAction`, `MerchantTraits`, `Recipe`, `Order`, `Transaction`, `CityUpgrade`, `TerrainRay`, `NeighborInfo`\n\n**`src/config.rs`** \u2014 `EconomyConfig` with sections for world, city, merchant, bandit, reputation, road, professions. Validates:\n- Range pairs (`population_range`, `tax_rate_range`, patrol/rob ranges)\n- Percentage bounds (tax max <= 1.0, rob pcts in [0,1])\n- Positive values (dimensions, capacities, speeds)\n- Profession distribution sums to ~1.0\n- Collects all errors before returning\n\n**`economy_config.toml`** \u2014 All spec defaults verbatim\n\n**`src/lib.rs`** \u2014 Module declarations for `types` and `config`\n\n**`src/main.rs`** \u2014 Minimal macroquad game loop that loads config and renders FPS + world bounds\n\n`cargo check` and `cargo test` (4 tests) pass cleanly.\n",
+  "result_summary": "All 13 tests pass. Here's what was added to `src/world/terrain.rs`:\n\n**`find_path(&self, start, goal) -> Option<Vec<(u32,u32)>>`** \u2014 A* pathfinding with:\n- 8-directional movement\n- Cost = `distance / speed_multiplier` (cardinal=1.0, diagonal=\u221a2), so faster terrain is cheaper\n- Euclidean heuristic (admissible since max speed is 1.0)\n- `BinaryHeap` min-heap via reversed `Ord`\n- Skips impassable cells (Mountains, Water) via `is_passable()`\n- Returns `None` for out-of-bounds, impassable start/goal, or unreachable goal\n\n**`is_reachable(&self, start, goal) -> bool`** \u2014 convenience wrapper over `find_path`.\n\n**7 new tests** covering: self-path, adjacent path, path validity (all passable + 8-connected), unreachable goal (mountain-walled), impassable start/goal, out-of-bounds, and faster-terrain preference.\n",
   "symbol_scope": [],
   "tokens_used": 0,
   "cost_usd": 0.0,
   "attempt_count": 0,
-  "attempt_history": []
+  "attempt_history": [],
+  "has_diff": false
 }

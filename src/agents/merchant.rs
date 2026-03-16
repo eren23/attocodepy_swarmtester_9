@@ -98,6 +98,11 @@ impl PriceMemory {
 /// Maximum number of transactions kept in the ledger.
 const LEDGER_CAP: usize = 50;
 
+/// Number of ticks with no significant movement before a merchant is considered stuck.
+const STUCK_THRESHOLD: u32 = 10;
+/// Distance threshold for considering a merchant "at" a waypoint (in tiles).
+const WAYPOINT_ARRIVAL_DIST: f32 = 1.5;
+
 #[derive(Debug, Clone)]
 pub struct Merchant {
     pub id: u32,
@@ -118,6 +123,15 @@ pub struct Merchant {
     pub ledger: VecDeque<Transaction>,
     pub caravan_id: Option<u32>,
     pub traits: MerchantTraits,
+
+    /// A* waypoints toward the current destination city (grid coords).
+    pub waypoints: VecDeque<(u32, u32)>,
+    /// Which city the current waypoints lead to.
+    pub waypoint_target: Option<CityId>,
+    /// Consecutive ticks with negligible movement (stuck detection).
+    stuck_ticks: u32,
+    /// Position at the previous tick for stuck detection.
+    prev_pos: Vec2,
 
     /// Consecutive ticks with gold < 0 (for bankruptcy detection).
     negative_gold_ticks: u32,
@@ -158,6 +172,10 @@ impl Merchant {
             ledger: VecDeque::with_capacity(LEDGER_CAP),
             caravan_id: None,
             traits: MerchantTraits::random(rng),
+            waypoints: VecDeque::new(),
+            waypoint_target: None,
+            stuck_ticks: 0,
+            prev_pos: pos,
             negative_gold_ticks: 0,
         }
     }
@@ -205,6 +223,69 @@ impl Merchant {
             self.ledger.pop_front();
         }
         self.ledger.push_back(tx);
+    }
+
+    // ── Waypoint navigation ───────────────────────────────────────────────
+
+    /// Replace the current waypoint queue with a new A* path toward `target`.
+    pub fn set_waypoints(&mut self, target: CityId, path: Vec<(u32, u32)>) {
+        self.waypoints = path.into();
+        self.waypoint_target = Some(target);
+        self.stuck_ticks = 0;
+    }
+
+    /// Discard all waypoints and reset navigation state.
+    pub fn clear_waypoints(&mut self) {
+        self.waypoints.clear();
+        self.waypoint_target = None;
+        self.stuck_ticks = 0;
+    }
+
+    /// Peek at the next waypoint without consuming it.
+    pub fn next_waypoint(&self) -> Option<(u32, u32)> {
+        self.waypoints.front().copied()
+    }
+
+    /// Pop waypoints that are within `WAYPOINT_ARRIVAL_DIST` tiles of `pos`.
+    /// Returns the new "next waypoint" direction as a world-space Vec2, if any remain.
+    pub fn advance_waypoints(&mut self) -> Option<Vec2> {
+        while let Some(&(wx, wy)) = self.waypoints.front() {
+            let wp = Vec2::new(wx as f32 + 0.5, wy as f32 + 0.5);
+            if self.pos.distance(wp) <= WAYPOINT_ARRIVAL_DIST {
+                self.waypoints.pop_front();
+            } else {
+                let delta = wp - self.pos;
+                return Some(delta.normalized());
+            }
+        }
+        None
+    }
+
+    /// Update stuck detection. Call once per tick after movement.
+    pub fn update_stuck_detection(&mut self) {
+        if self.pos.distance(self.prev_pos) < 0.3 {
+            self.stuck_ticks += 1;
+        } else {
+            self.stuck_ticks = 0;
+        }
+        self.prev_pos = self.pos;
+    }
+
+    /// Returns `true` if the merchant has been stuck for too long and needs
+    /// a path recompute.
+    pub fn is_stuck(&self) -> bool {
+        self.stuck_ticks >= STUCK_THRESHOLD
+    }
+
+    /// Whether waypoints should be recomputed (stuck, empty, or target changed).
+    pub fn needs_path_recompute(&self, desired_target: Option<CityId>) -> bool {
+        if self.waypoints.is_empty() && desired_target.is_some() {
+            return true;
+        }
+        if desired_target != self.waypoint_target {
+            return true;
+        }
+        self.is_stuck()
     }
 
     // ── Physics / Movement ──────────────────────────────────────────────────
@@ -272,13 +353,16 @@ impl Merchant {
         self.pos = final_pos;
         self.heading = new_heading;
 
-        // 6. Fatigue cost
+        // 6. Stuck detection (before fatigue, after final position is set).
+        self.update_stuck_detection();
+
+        // 7. Fatigue cost
         let fatigue_cost = 0.03
             + 0.02 * action.speed_mult
             + 0.04 * (self.inventory_weight() / self.max_carry.max(1e-6));
         self.fatigue = (self.fatigue + fatigue_cost).min(100.0);
 
-        // 7. Fatigue collapse
+        // 8. Fatigue collapse
         if self.fatigue >= 100.0 {
             self.collapse();
         }

@@ -1,0 +1,9 @@
+# Task: Economy manager, world integration, and game loop
+
+Implement src/agents/economy_manager.rs: EconomyManager tracks all merchants, handles spawning (initial population from config, spawn rate 0.05 when economy healthy, up to max_population 400), profession assignment (default distribution: 40% trader, 12% miner, 10% farmer, 18% craftsman, 8% soldier, 5% shipwright, 7% idle), rebalancing every 500 ticks (compute avg income per profession over last 1000 ticks, transfer 5% of worst to best, assign idle to most-needed), emergency rebalancing (if < 20% cities have food, force 20% of idle + low-performing traders to become farmers), bankrupt removal, gold conservation tracking.
+
+Implement src/world/world.rs: World struct aggregating Terrain, ReputationGrid, RoadGrid, Vec<City>, Vec<ResourceNode>, Vec<BanditCamp>, season state (cycling every 2500 ticks: SPRING→SUMMER→AUTUMN→WINTER), current_tick. World::tick() method orchestrating per-tick update order: (1) update season, (2) build sensory inputs for all merchants, (3) run brain decisions, (4) execute merchant actions (movement, trading, crafting, extraction), (5) process gossip and caravans, (6) tick reputation (diffuse, decay), (7) tick roads (decay), (8) tick cities (population, tax, warehouse), (9) tick resource nodes (regen), (10) tick bandits (patrol, attack, starvation), (11) economy manager (spawn, rebalance), (12) collect metrics.
+
+Update src/main.rs: macroquad game loop calling world.tick() and rendering, with configurable tick rate and pause/speed controls.
+
+Target files: src/agents/economy_manager.rs, src/world/world.rs, src/main.rs

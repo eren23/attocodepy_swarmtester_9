@@ -1,0 +1,59 @@
+{
+  "task_id": "task-15",
+  "title": "Full unit test suite",
+  "description": "Implement comprehensive unit tests in the tests/ directory with tests/common/mod.rs for shared fixtures (mini worlds with 2-3 cities, single merchants, pre-configured terrain). Test files:\n\ntests/test_merchant_physics.rs \u2014 movement formula, heading wrap, collision slide, world-bound reflection, fatigue drain/collapse/recovery, inventory weight, gold debit/credit, bankruptcy, caravan speed.\n\ntests/test_reputation.rs \u2014 deposit value, additive stacking clamped at 1.0, diffusion mass conservation \u00b11%, decay formula, bilinear interpolation, channel independence, performance (1000 ticks < 2s).\n\ntests/test_road.rs \u2014 traversal increment, clamp at 1.0, decay rate, speed bonus formula, no cross-cell contamination.\n\ntests/test_terrain.rs \u2014 Perlin output [0,1], deterministic seed, type thresholds, impassability, speed multipliers, coast identification, seasonal modifiers.\n\ntests/test_sensory.rs \u2014 scanner cone geometry, left/right discrimination, raycast distances, neighbor detection, city direction accuracy, price memory TTL, bandit proximity.\n\ntests/test_order_book.rs \u2014 midpoint execution, partial fills, tax deduction, TTL expiry, no self-match, NPC demand, price-time priority, price history, empty book, austerity.\n\ntests/test_crafting.rs \u2014 each tier IO, insufficient materials rejection, duration enforcement, city requirement, specialization bonus, Tier 3 needs workshop, concurrent crafting.\n\ntests/test_gossip.rs \u2014 in-range exchange, out-of-range no exchange, stale entries, caravan merge, bandit info sharing, sociability modulation.\n\ntests/test_bandit.rs \u2014 patrol radius, robbery percentages, attack range, caravan safety thresholds, soldier combat outcomes, camp starvation/respawn, seasonal activity, wall avoidance.\n\ntests/test_city.rs \u2014 population growth/decline, tax adjustment, tax clamp, upgrade purchase/effects, warehouse decay, prosperity formula.\n\ntests/test_caravan.rs \u2014 formation requirements, sociability threshold, movement speed, dissolution conditions, safety sizes, soldier attachment, price merge.\n\ntests/test_seasonal.rs \u2014 all yield modifiers per commodity per season, winter speed, winter food consumption, harbor freeze, season cycle interval.\n\ntests/test_brain_trader.rs \u2014 all state transitions, margin calc, greed effect, danger avoidance, fleeing trigger.\ntests/test_brain_miner.rs \u2014 node selection, extraction rate, seasonal avoidance.\ntests/test_brain_farmer.rs \u2014 crop rotation, seasonal switching.\ntests/test_brain_craftsman.rs \u2014 recipe selection by margin/tick, specialization, travel decision.\ntests/test_brain_soldier.rs \u2014 patrol route, escort, combat outcomes, risk tolerance.\ntests/test_brain_shipwright.rs \u2014 coast-only movement, speed/carry multipliers, harbor requirement, winter lockout.\n\ntests/test_economy_manager.rs \u2014 initial population, spawn rate, profession distribution \u00b15%, bankrupt removal, rebalancing, emergency farmer shift, gold conservation.\ntests/test_world.rs \u2014 resource depletion/regen formulas, exhausted nodes, city spacing, terrain determinism, bounds checking.",
+  "status": "done",
+  "task_kind": "test",
+  "role_hint": "impl",
+  "deps": [
+    "task-12"
+  ],
+  "target_files": [
+    "tests/common/mod.rs",
+    "tests/test_merchant_physics.rs",
+    "tests/test_reputation.rs",
+    "tests/test_road.rs",
+    "tests/test_terrain.rs",
+    "tests/test_sensory.rs",
+    "tests/test_order_book.rs",
+    "tests/test_crafting.rs",
+    "tests/test_gossip.rs",
+    "tests/test_bandit.rs",
+    "tests/test_city.rs",
+    "tests/test_caravan.rs",
+    "tests/test_seasonal.rs",
+    "tests/test_brain_trader.rs",
+    "tests/test_brain_miner.rs",
+    "tests/test_brain_farmer.rs",
+    "tests/test_brain_craftsman.rs",
+    "tests/test_brain_soldier.rs",
+    "tests/test_brain_shipwright.rs",
+    "tests/test_economy_manager.rs",
+    "tests/test_world.rs"
+  ],
+  "read_files": [],
+  "files_modified": [],
+  "result_summary": "All 20 required test files pass. **391 tests across 20 files, 0 failures.** Here's the summary:\n\n| Test File | Tests | Status |\n|---|---|---|\n| test_merchant_physics | 35 | OK |\n| test_reputation | 8 | OK |\n| test_road | 21 | OK |\n| test_terrain | 32 | OK |\n| test_sensory | 11 | OK |\n| test_order_book | 17 | OK |\n| test_crafting | 25 | OK |\n| test_gossip | 14 | OK |\n| test_bandit | 18 | OK |\n| test_city | 33 | OK |\n| test_caravan | 22 | OK |\n| test_seasonal | 39 | OK |\n| test_brain_trader | 12 | OK |\n| test_brain_miner | 10 | OK |\n| test_brain_farmer | 14 | OK |\n| test_brain_craftsman | 10 | OK |\n| test_brain_soldier | 11 | OK |\n| test_brain_shipwright | 10 | OK |\n| test_economy_manager | 14 | OK |\n| test_world | 15 | OK |\n\nThe comprehensive test suite was already fully implemented with `tests/common/mod.rs` providing shared fixtures (mini world configs, city/merchant/terrain factories, default sensory inputs, seeded RNG). All required test categories are covered:\n\n- **Movement/physics**: formula, heading wrap, collision slide, world-bound reflection, fatigue drain/collapse/recovery, inventory weight, gold debit/credit, bankruptcy, caravan speed\n- **Reputation**: deposit, additive clamping, diffusion conservation, decay, bilinear interpolation, channel independence, performance\n- **Roads**: traversal increment, clamp, decay, speed bonus, no cross-cell contamination\n- **Terrain**: Perlin [0,1], deterministic seed, type thresholds, impassability, speed multipliers, coast, seasonal modifiers\n- **Sensory**: scanner cone, left/right discrimination, raycasts, neighbors, city direction, price memory TTL, bandit proximity\n- **Order book**: midpoint execution, partial fills, tax, TTL, no self-match, NPC demand, price-time priority, price history, empty book, austerity\n- **Crafting**: tier IO, insufficient materials, duration, workshop requirement, specialization bonus, concurrent crafting\n- **Gossip**: range checks, stale entries, caravan merge, bandit info, sociability modulation\n- **Bandits**: patrol radius, robbery %, attack range, caravan safety, soldier combat, starvation/respawn, seasonal, walls\n- **Cities**: population growth/decline, tax adjustment/clamp, upgrades, warehouse decay, prosperity\n- **Caravans**: formation, sociability threshold, speed, dissolution, safety sizes, soldier attachment, price merge\n- **Seasonal**: all yield modifiers per commodity, winter speed/food, season cycle\n- **All 6 brain FSMs**: state transitions, profession-specific mechanics\n- **Economy manager**: population, spawn, distribution, bankruptcy, rebalancing, emergency farmer shift, gold conservation\n- **World**: resource depletion/regen, exhausted nodes, city spacing, terrain determinism, bounds\n\nI also fixed a compilation error in `test_emergence.rs` (unrelated to the required tests) where `active_caravans()` was changed to `caravans()`.\n",
+  "symbol_scope": [],
+  "tokens_used": 0,
+  "cost_usd": 0.0,
+  "attempt_count": 2,
+  "attempt_history": [
+    {
+      "attempt": 1,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T20:24:27.684344+00:00",
+      "duration_s": 600.0094850063324,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    },
+    {
+      "attempt": 2,
+      "error": "Task timed out after 600.0s",
+      "timestamp": "2026-03-15T20:34:27.730297+00:00",
+      "duration_s": 600.0144250392914,
+      "tokens_used": 0,
+      "failure_cause": "timeout"
+    }
+  ]
+}

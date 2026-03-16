@@ -88,3 +88,19 @@
 {"event_type": "spawn", "timestamp": 1773607684.910799, "task_id": "task-17", "agent_id": "agent-task-17", "data": {}, "message": "Spawning worker for task-17"}
 {"event_type": "complete", "timestamp": 1773608078.722223, "task_id": "task-17", "agent_id": "agent-task-17", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-17 completed"}
 {"event_type": "complete", "timestamp": 1773608078.742733, "task_id": "", "agent_id": "", "data": {"done": 17}, "message": "Swarm complete: 17/17 tasks in 7133.7s"}
+{"event_type": "info", "timestamp": 1773688621.371701, "task_id": "", "agent_id": "", "data": {}, "message": "Git safety: branch=attoswarm/20bf755a, stash=yes"}
+{"event_type": "info", "timestamp": 1773688621.371797, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 1: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773688621.372135, "task_id": "task-1", "agent_id": "agent-task-1", "data": {}, "message": "Spawning worker for task-1"}
+{"event_type": "complete", "timestamp": 1773688741.3216882, "task_id": "task-1", "agent_id": "agent-task-1", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-1 completed"}
+{"event_type": "info", "timestamp": 1773688741.398171, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 2: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773688741.398426, "task_id": "task-2", "agent_id": "agent-task-2", "data": {}, "message": "Spawning worker for task-2"}
+{"event_type": "decision", "timestamp": 1773689341.41274, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-16T19:29:01.412705+00:00", "phase": "executing", "decision_type": "retry", "decision": "Retrying task-2 (attempt 1/2)", "reasoning": "Increase task timeout or split into smaller subtasks."}, "message": "Retrying task-2 (attempt 1/2)"}
+{"event_type": "retry", "timestamp": 1773689341.413114, "task_id": "task-2", "agent_id": "agent-task-2", "data": {}, "message": "Task task-2 failed (attempt 1/2), retrying"}
+{"event_type": "info", "timestamp": 1773689341.512972, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 3: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773689341.513429, "task_id": "task-2", "agent_id": "agent-task-2", "data": {}, "message": "Spawning worker for task-2"}
+{"event_type": "decision", "timestamp": 1773689941.520714, "task_id": "", "agent_id": "", "data": {"timestamp": "2026-03-16T19:39:01.520695+00:00", "phase": "executing", "decision_type": "task_failed", "decision": "Task task-2 failed permanently", "reasoning": "No downstream tasks affected"}, "message": "Task task-2 failed permanently"}
+{"event_type": "fail", "timestamp": 1773689941.521128, "task_id": "task-2", "agent_id": "agent-task-2", "data": {"skipped": [], "failure": {"cause": "timeout", "confidence": 0.95, "evidence": "Duration: 600s. Error: Task timed out after 600.0s", "suggestion": "Increase task timeout or split into smaller subtasks."}}, "message": "Task task-2 failed: Task timed out after 600.0s"}
+{"event_type": "info", "timestamp": 1773689941.6131048, "task_id": "", "agent_id": "", "data": {}, "message": "Batch 4: 1 tasks"}
+{"event_type": "spawn", "timestamp": 1773689941.613207, "task_id": "task-3", "agent_id": "agent-task-3", "data": {}, "message": "Spawning worker for task-3"}
+{"event_type": "complete", "timestamp": 1773690346.306058, "task_id": "task-3", "agent_id": "agent-task-3", "data": {"files_modified": [], "tokens_used": 0, "cost_usd": 0.0}, "message": "Task task-3 completed"}
+{"event_type": "complete", "timestamp": 1773690346.386347, "task_id": "", "agent_id": "", "data": {"done": 2, "failed": 1}, "message": "Swarm complete: 2/3 tasks in 3615.7s"}

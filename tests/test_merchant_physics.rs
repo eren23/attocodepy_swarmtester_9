@@ -178,6 +178,7 @@ fn collision_stays_in_place_if_fully_blocked() {
     terrain.set_terrain_at(11, 10, TerrainType::Mountains); // east
     terrain.set_terrain_at(10, 11, TerrainType::Mountains); // south
     terrain.set_terrain_at(11, 11, TerrainType::Mountains); // SE
+    terrain.rebuild_components();
 
     let start = Vec2::new(10.5, 10.5);
     let mut m = make_merchant_at(start, Profession::Trader);

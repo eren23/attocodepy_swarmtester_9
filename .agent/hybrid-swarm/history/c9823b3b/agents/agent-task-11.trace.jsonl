@@ -1,0 +1,2 @@
+{"timestamp": 1773604403.640357, "agent_id": "agent-task-11", "task_id": "task-11", "entry_type": "error", "data": {"cost_usd": 0.0, "tokens_used": 0, "duration_s": 600.0081422328949, "files_modified": [], "error": "Task timed out after 600.0s"}}
+{"timestamp": 1773604881.8609548, "agent_id": "agent-task-11", "task_id": "task-11", "entry_type": "cost_delta", "data": {"cost_usd": 0.0, "tokens_used": 0, "duration_s": 478.1965718269348, "files_modified": [], "error": ""}}

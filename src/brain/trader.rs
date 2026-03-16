@@ -62,9 +62,13 @@ impl TraderBrain {
         // Steer toward stronger signal
         let turn = steer_toward_signal(left_score, right_score);
 
-        // Also follow profit gradient
-        let grad_turn = heading_delta_toward(merchant.heading, sensory.profit_gradient);
-        let blended_turn = turn * 0.6 + grad_turn * 0.4;
+        // Follow waypoints if available, otherwise profit gradient.
+        let nav_turn = if let Some(wp_dir) = merchant.advance_waypoints() {
+            heading_delta_toward(merchant.heading, wp_dir)
+        } else {
+            heading_delta_toward(merchant.heading, sensory.profit_gradient)
+        };
+        let blended_turn = turn * 0.6 + nav_turn * 0.4;
 
         // Check transition: at a city and can find a profitable route
         if sensory.nearest_city.1 < 25.0 && self.has_profitable_route(sensory, merchant) {
@@ -145,7 +149,7 @@ impl TraderBrain {
     fn transporting(&self, sensory: &SensoryInput, merchant: &mut Merchant) -> MerchantAction {
         // Fatigue detour
         if sensory.fatigue > 70.0 {
-            let turn = heading_delta_toward(merchant.heading, sensory.nearest_city.0);
+            let turn = waypoint_or_fallback_turn(merchant, sensory.nearest_city.0);
             if sensory.nearest_city.1 < 25.0 {
                 merchant.state = AgentState::Resting;
                 return MerchantAction::default();
@@ -163,8 +167,13 @@ impl TraderBrain {
             return MerchantAction::default();
         }
 
-        // Navigate using profit gradient (toward high-profit areas = sell targets)
-        let profit_turn = heading_delta_toward(merchant.heading, sensory.profit_gradient);
+        // Primary navigation: follow A* waypoints if available.
+        let nav_turn = if let Some(wp_dir) = merchant.advance_waypoints() {
+            heading_delta_toward(merchant.heading, wp_dir)
+        } else {
+            // Fallback: profit gradient toward sell targets.
+            heading_delta_toward(merchant.heading, sensory.profit_gradient)
+        };
 
         // Avoid danger based on risk tolerance
         let danger_avoidance = if sensory.danger_gradient.length() > 0.01 {
@@ -175,9 +184,9 @@ impl TraderBrain {
             0.0
         };
 
-        let turn = profit_turn * 0.7 + danger_avoidance * 0.3;
+        let turn = nav_turn * 0.7 + danger_avoidance * 0.3;
 
-        // Terrain avoidance via rays
+        // Terrain avoidance via rays (secondary safety layer)
         let terrain_turn = terrain_avoidance(sensory);
         let final_turn = turn * 0.7 + terrain_turn * 0.3;
 
@@ -235,7 +244,7 @@ impl TraderBrain {
     fn resting(&self, sensory: &SensoryInput, merchant: &mut Merchant) -> MerchantAction {
         // Move toward nearest city if not there
         if sensory.nearest_city.1 > 25.0 {
-            let turn = heading_delta_toward(merchant.heading, sensory.nearest_city.0);
+            let turn = waypoint_or_fallback_turn(merchant, sensory.nearest_city.0);
             return MerchantAction {
                 turn,
                 speed_mult: 0.5,
@@ -273,9 +282,9 @@ impl TraderBrain {
 
         let (bandit_dir, _) = sensory.nearest_bandit.unwrap();
 
-        // Turn away from bandit, blend with toward nearest city
+        // Turn away from bandit, blend with toward nearest city (via waypoints if available)
         let away_turn = heading_delta_toward(merchant.heading, -bandit_dir);
-        let city_turn = heading_delta_toward(merchant.heading, sensory.nearest_city.0);
+        let city_turn = waypoint_or_fallback_turn(merchant, sensory.nearest_city.0);
         let turn = away_turn * 0.6 + city_turn * 0.4;
 
         MerchantAction {
@@ -434,6 +443,16 @@ pub(crate) fn steer_toward_signal(left_score: f32, right_score: f32) -> f32 {
     let diff = right_score - left_score;
     let magnitude = diff.abs().min(1.0);
     diff.signum() * magnitude * MerchantAction::MAX_TURN * 0.5
+}
+
+/// Steer toward the next A* waypoint if available, otherwise fall back to
+/// the given direction vector (typically the nearest-city direction).
+fn waypoint_or_fallback_turn(merchant: &mut Merchant, fallback_dir: Vec2) -> f32 {
+    if let Some(wp_dir) = merchant.advance_waypoints() {
+        heading_delta_toward(merchant.heading, wp_dir)
+    } else {
+        heading_delta_toward(merchant.heading, fallback_dir)
+    }
 }
 
 /// Use terrain rays to avoid obstacles. Returns a turn correction.

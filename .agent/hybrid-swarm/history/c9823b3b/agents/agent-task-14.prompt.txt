@@ -1,0 +1,13 @@
+# Task: Metrics tracker, emergence detection, and headless mode
+
+Implement src/metrics/tracker.rs: MetricsTracker recording time series data per tick: total gold, trade volume, per-commodity prices, per-city populations, profession distribution, caravan count, robbery count, merchant count, bankruptcies, road entropy, Gini coefficient.
+
+src/metrics/inequality.rs: Gini coefficient calculator, Lorenz curve computation, wealth distribution histogram.
+
+src/metrics/emergence.rs: 15 emergent behavior detectors per spec: (1) trade route formation — road grid entropy decrease, corridor width; (2) market specialization — per-city Herfindahl index of craft output; (3) price convergence — cross-city price variance decrease; (4) boom-bust cycles — detrended price autocorrelation with Ljung-Box test; (5) seasonal price waves — seasonal decomposition; (6) wealth inequality — Gini > threshold; (7) guild clustering — DBSCAN per profession; (8) caravan-danger correlation — Pearson r; (9) information propagation — price-knowledge wavefront speed; (10) economic migration — density shift toward new resources; (11) profession adaptation — distribution shift on resource change; (12) city growth/decline — population variance increase; (13) bandit avoidance — traffic drop near camps; (14) tax competition — tax-volume negative correlation; (15) supply chain depth — avg commodity touch count.
+
+src/metrics/reporter.rs: JSON summary output matching spec format.
+
+Headless mode: add CLI args (--headless --ticks N --merchants N --seed N --no-bandits --eternal-summer) via clap. When --headless: skip macroquad, run N ticks, output JSON report to stdout.
+
+Target files: src/metrics/mod.rs, src/metrics/tracker.rs, src/metrics/emergence.rs, src/metrics/inequality.rs, src/metrics/reporter.rs

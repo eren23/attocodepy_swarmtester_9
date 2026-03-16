@@ -1,0 +1,7 @@
+{
+  "is_git_repo": true,
+  "original_branch": "main",
+  "swarm_branch": "attoswarm/20bf755a",
+  "stash_ref": "attoswarm-20bf755a-pre-run",
+  "pre_run_head": "d2f565382ff3e1fdcdcd6e7629b8c7e66fad993d"
+}

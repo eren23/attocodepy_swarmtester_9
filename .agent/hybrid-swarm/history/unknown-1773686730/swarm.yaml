@@ -1,0 +1,97 @@
+version: 1
+run:
+  name: quick-run
+  working_dir: .
+  run_dir: .agent/hybrid-swarm
+  poll_interval_ms: 250
+  max_runtime_seconds: 600
+  monitor_detach_on_exit: true
+  debug: false
+  default_model: ''
+roles:
+- role_id: orchestrator
+  role_type: orchestrator
+  backend: claude
+  model: ''
+  count: 1
+  write_access: false
+  workspace_mode: shared_ro
+  task_kinds:
+  - analysis
+  - design
+  capabilities: []
+  command: null
+  execution_mode: oneshot
+- role_id: worker
+  role_type: worker
+  backend: claude
+  model: ''
+  count: 2
+  write_access: true
+  workspace_mode: shared_ro
+  task_kinds:
+  - implement
+  - test
+  - integrate
+  capabilities: []
+  command: null
+  execution_mode: oneshot
+budget:
+  max_tokens: 5000000
+  max_cost_usd: 10.0
+  reserve_ratio: 0.15
+  chars_per_token_fallback: 4.0
+merge:
+  authority_role: merger
+  judge_roles: []
+  quality_threshold: 0.75
+  judge_policy: quorum
+  auto_apply_non_conflicting: true
+watchdog:
+  heartbeat_timeout_seconds: 45.0
+  task_silence_timeout_seconds: 120.0
+  task_max_duration_seconds: 600.0
+retries:
+  max_task_attempts: 2
+orchestration:
+  decomposition: llm
+  max_tasks: 20
+  max_depth: 3
+  custom_instructions: ''
+ui:
+  default_view: overview
+  poll_ms: 500
+workspace:
+  mode: shared
+  reconciliation_strategy: ast_merge
+  max_concurrent_writers: 2
+  git_safety: true
+  claim_ttl_seconds: 120.0
+  change_manifest: true
+code_intel:
+  enabled: true
+  bootstrap_on_start: true
+  impact_enrichment: true
+  cross_ref_conflicts: true
+  learning_enabled: true
+  bootstrap_max_tokens: 4000
+  max_read_files_per_task: 10
+  impact_depth: 1
+research:
+  metric_name: score
+  metric_direction: maximize
+  experiment_timeout_seconds: 300.0
+  experiment_max_tokens: 500000
+  experiment_max_cost_usd: 2.0
+  total_max_experiments: 100
+  total_max_cost_usd: 50.0
+  total_max_wall_seconds: 28800.0
+  min_improvement_threshold: 0.0
+  eval_command: ''
+  eval_repeat: 1
+  target_files: []
+  use_git_stash: true
+  model: ''
+  backend: claude
+  working_dir: .
+  run_dir: .agent/research
